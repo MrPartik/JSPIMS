@@ -1,3 +1,6 @@
+<?php 
+	include 'INCLUDES/userdetails.php';
+?>
 <div id="sidebar" class="sidebar" data-disable-slide-animation="true">
 			<!-- begin sidebar scrollbar -->
 			<div data-scrollbar="true" data-height="100%">
@@ -11,8 +14,8 @@
 							</div>
 							<div class="info">
 								<b class="caret pull-right"></b>
-								Cecilia
-								<small>Inventory Admin</small>
+								<?php echo $fname; ?>
+								<small><?php echo $role; ?></small>
 							</div>
 						</a>
 					</li>
@@ -42,14 +45,18 @@
 						
 					</li>
 					<li class="has-sub">
-						<a href="request.php">
+						<a href="javascript:;">
+					        <b class="caret"></b>
 							<i class="material-icons">mail</i>
-							<span>Requisition</span>
+							<span>Purchase</span>
 						</a>
-						
+						<ul class="sub-menu">
+							<li><a href="requestPurchase.php">Purchase</a></li>
+							<li><a href="pendingRequests.php">Pending Requests</a></li>
+						</ul>
 					</li>
 					<li class="has-sub">
-						<a href="aquiredStocks.php">
+						<a href="acquired.php">
 							<i class="material-icons">receive</i>
 							<span>Aquisition</span>
 						</a>

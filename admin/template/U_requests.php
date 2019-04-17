@@ -1,7 +1,7 @@
 <?php
 	include 'INCLUDES/userdetails.php';
 	include 'INCLUDES/header.php';
-	include 'INCLUDES/sidebar.php';
+	include 'INCLUDES/U_sidebar.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Stock Management</title>
+	<title>Color Admin | Requests</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -54,13 +54,15 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Manage Stocks</h1>
+			<h1 class="page-header">Spare Parts Requests</h1>
 			<!-- end page-header -->
-			
+			<div class="form-group">
+			<a href="U_addRequest.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Request</a>
+            </div>
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">Spare Parts Inventory</h4>
+					<h4 class="panel-title">Spare Parts Requests</h4>
 				</div>
 				<div class="panel-body">
 						<table id="data-table-buttons" class="table table-striped table-bordered">  

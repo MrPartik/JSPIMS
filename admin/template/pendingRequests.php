@@ -1,14 +1,13 @@
 <?php
 	include 'INCLUDES/userdetails.php';
-	include 'INCLUDES/sidebar.php';
 	include 'INCLUDES/header.php';
+	include 'INCLUDES/sidebar.php';
 ?>
 
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
-
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
@@ -28,107 +27,87 @@
 	<link href="../assets/css/material/style-responsive.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/theme/orange.css" rel="stylesheet" id="theme" />
 	<!-- ================== END BASE CSS STYLE ================== -->
-	<!-- ================== BEGIN RESPONSIVE TABLE STYLE ================== -->
-	<link href="../assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-	<link href="../assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
-	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="../assets/plugins/pace/pace.min.js"></script>
 	<!-- ================== END BASE JS ================== -->
+
+	<!-- ================== BEGIN RESPONSIVE TABLE STYLE ================== -->
+	<link href="../assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
-	 
 </head>
 <body>
 	<!-- begin #page-loader -->
-	
 	<!-- end #page-loader -->
 	
-	<!-- begin #page-container 
-	<div id="page-container" class="page-container fade page-sidebar-fixed page-header-fixed page-with-wide-sidebar">
-		<!-- begin #header -->
-		
-		<!-- end #header -->
-		
-		<!-- begin #sidebar -->
-		
-				<!-- end sidebar nav -->
-			</div>
-			<!-- end sidebar scrollbar -->
-		</div>
-		<div class="sidebar-bg"></div>
-		<!-- end #sidebar -->
-		
+	<!-- begin #page-container -->
+	
 		<!-- begin #content -->
 		<div id="content" class="content">
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb pull-right">
 				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
 				<li class="breadcrumb-item"><a href="javascript:;">Page Options</a></li>
-				<li class="breadcrumb-item active">Create Exam</li>
+				<li class="breadcrumb-item active">Blank Page</li>
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Create Exam<small></small></h1>
+			<h1 class="page-header">Manage Stocks</h1>
 			<!-- end page-header -->
 			
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<div class="panel-heading-btn">
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-					</div>
-					<h4 class="panel-title">Setup Exams</h4>
+					<h4 class="panel-title">Spare Parts Inventory</h4>
 				</div>
 				<div class="panel-body">
-						<table id="data-table-responsive" class="table table-striped table-bordered">
+						<table id="data-table-buttons" class="table table-striped table-bordered">  
                                 <thead>
                                     <tr>
-                                    	<th width="1%"></th>
-                                    	<th width="1%" data-orderable="false"></th>
-                                        <th class="text-nowrap">Stock No.</th>
+                                    	<th style="display: none;"></th>
+                                        <th class="text-nowrap">SKU</th>
                                         <th class="text-nowrap">Name</th>
-                                        <th class="text-nowrap">Category</th>
-                                        <th class="text-nowrap">Unit</th>
+                                        <th class="text-nowrap">Unit Type</th>
+                                        <th class="text-nowrap">Condition</th>
                                         <th class="text-nowrap">Quantity</th>
                                         <th class="text-nowrap">Stock Level</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php 
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME 
+                                                                    FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
+                                                                    INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
+                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
+                                    while ($row=mysqli_fetch_assoc($stock)) {
+                                        $sid = $row["STOCK_ID"];
+                                        $sku = $row["STOCK_KEY_UNIT"];
+                                        $sname = $row["STOCK_Name"];
+                                        $sut = $row["UNIT_TYPE"];
+                                        $scon = $row["CON_NAME"];
+                                        $squa = $row["STOCK_QUANTITY"];
+                                        $scl = $row["STOCK_CRITICAL_LEVEL"];
+                                
+                                ?>
                                     <tr class="odd gradeX">
-                                    	<td width="1%" class="f-s-600 text-inverse">1</td>
-                                    	<td width="1%" class="with-img"><img src="../assets/img/user/user-1.jpg" class="img-rounded height-30" /></td>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td>4</td>
-                                        <td>X</td>
-                                        <td>X</td>
+                                    	<td style="display: none;"><?php echo $sid;?></td>
+                                        <td><?php echo $sku;?></td>
+                                        <td><?php echo $sname;?></td>
+                                        <td><?php echo $sut;?></td>
+                                        <td><?php echo $scon;?></td>
+                                        <td><?php echo $squa;?></td>
+                                        <td><span class="label label-theme m-l-5"><?php echo $scl;?></span></td>
+                                <?php } ?>
                                     </tr>
-                                <!--<tbody><?php 
-	                                $tablesql = "SELECT * from ROOM WHERE ROOM_STAT = 0 ORDER BY ROOM_ID DESC";
-	                                $tableresult = mysqli_query($connect, $tablesql) or die("Bad query: $tablesql");
-	                                $a = 0;
-	                                while ($row = mysqli_fetch_assoc($tableresult)) {
-	                                	
-	                                	$a+=1;
-	                                	$ID = $row['ROOM_ID'];
-	                                    $fname = $row['ROOM_NAME'];
-                                                
-                                 ?>
-                                    <tr class="odd gradeX">
-                                       <td><?php echo $a; ?></td>
-                                       <td><?php echo $fname ?></td>
-                                       <?php } ?>
-                                    </tr>-->
-                                    
                                 </tbody>
                             </table>
                         </div>
-                 </div>
+
+                   
+
 			</div>
 			<!-- end panel -->
 		</div>
@@ -202,7 +181,6 @@
         </div>
         <!-- end theme-panel -->
 		
-										
 		<!-- begin scroll to top btn -->
 		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="material-icons">keyboard_arrow_up</i></a>
 		<!-- end scroll to top btn -->
@@ -223,6 +201,7 @@
 	<script src="../assets/js/theme/material.min.js"></script>
 	<script src="../assets/js/apps.min.js"></script>
 	<!-- ================== END BASE JS ================== -->
+
 	<!-- ================== BEGIN RESPONSIVE TABLE JS ================== -->
 	<script src="../assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
 	<script src="../assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
@@ -230,11 +209,6 @@
 	<script src="../assets/js/demo/table-manage-responsive.demo.min.js"></script>
 	<!-- ================== END RESPONSIVE TABLE JS ================== -->
 	<script src="../assets/js/sweetalert/sweetalert.min.js"></script>
-
-	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
-	<script src="../assets/plugins/highlight/highlight.common.js"></script>
-	<script src="../assets/js/demo/render.highlight.js"></script>
-	<!-- ================== END PAGE LEVEL JS ================== -->
 	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
 	<script src="../assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
 	<script src="../assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
@@ -249,27 +223,39 @@
 	<script src="../assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 	<script src="../assets/js/demo/table-manage-buttons.demo.min.js"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
-	<script>
-		$(document).ready(function() {
-			App.init();
-			TableManageResponsive.init();
-			TableManageButtons.init();
-		});
-	</script>
+	
+	<script type="text/javascript">
+        $('#submit').click(function(e){
+            e.preventDefault();
 
-	<script>
-$(document).ready(function(){
+            var e = document.getElementById('bldg');
+            var get = e.options[e.selectedIndex].value;
+            var room = document.getElementById('room').value;
+           // var mnameuser = document.getElementById('mname').value;
+            //var lnameuser = document.getElementById('lname').value;
+            //var u_username = document.getElementById('u_name').value;
+           // var u_pass = document.getElementById('defpass').value;
 
- 
- $('#save').click(function(){
- 	$('input:checkbox').prop('checked', this.checked); 
-/*
-  var myCheckboxes = [];
-$("input:checked").each(function() {
-   myCheckboxes.push($(this).val());
-});
-swal({
-                        title: "Save new question/s?",
+
+            if (get == "")
+            {
+            
+                if (document.getElementById('bldg').options[e.selectedIndex].value == '')
+                {
+                    document.getElementById('bldg').options[0].innerText = "Please select";
+                    document.getElementById('bldg').focus();
+                    document.getElementById('bldg').style.borderColor = "#B94A48";
+                    document.getElementById('bldg').style.color = "#B94A48";
+                }
+					
+
+            }
+
+            else
+            {
+            	
+                swal({
+                        title: "Save new room?",
                         text: "",
                         type: "warning",
                         showCancelButton: true,
@@ -279,54 +265,75 @@ swal({
                         closeOnConfirm: false,
                         closeOnCancel: false
 
-                },function(isConfirm){
+                },
+                function(isConfirm){
                     if (isConfirm) {
+                    	 
 
-				  $.ajax({
-				   url:"insert.php",
-				   method:"POST",
-				   data:{myCheckboxes:myCheckboxes},
-				   success:function(data){
-				    //alert(data);
-				    swal("Question/s added! ", "Page will be reloaded.", "success");
-				    
-				    //window.location = 'adminQuestion.php';
-				   },
-				   error: function(data) {
-				                                       
-				    swal("Error", "Something is wrong.", "error");
-				}
-				  });//end ajax
-				 }
-				else
-				{
-				    swal("Cancelled", "Questions are not added.", "error");
-				}
+                      
+                        $.ajax({
+                                    type: 'POST',
+                                    url: 'INCLUDES/submitRoom.php',
+                                    async: false,
+                                    data: {
+                                        _room: room,
+                                        _bldg: get
 
-				});
-  					 }); */
-  });
-  					
+                                        /*_acctype: get,
+                                        _mname: mnameuser,
+                                        _lname: lnameuser,
+                                        _username: u_username,
+                                        _defpass: u_pass*/
+                                    },
+                                    success: function(data) {
+                                        
 
-// $('#topic2').change(function(){
+                                        swal("Room added! ", "Page will be reloaded.", "success");
+                                        
+                                        setTimeout(function() 
+                                        {
+                                            window.location = 'adminRoom.php';
+                                            //document.getElementById('add-regular').click();
+                                            
+										    //mywindow.close();
 
- 	 function fetch_item_data()
- {//var e2 = document.getElementById('topic2');
-  //var topic2 = e2.options[e2.selectedIndex].value;
-  $.ajax({
-   url:"fetch1.php",
-   method:"POST",
-   success:function(data)
-   {
-    $('#inserted_item_data').html(data);
-   }
-  })
- }
- fetch_item_data();
-  					// });
+										    return true;
+                                        },3000);
+                                        
 
- 
-});
-</script>
+                                    },
+                                    error: function(data) {
+                                       
+                                        swal("Error", "Something is wrong.", "error");
+                                    }
+
+                                }); 
+
+                        
+                            	
+   		 			
+                    
+
+                    } 
+                    else
+                    {
+                        swal("Cancelled", "Account is not created.", "error");
+                    }
+                });
+                
+             }
+           
+            
+
+        });
+    </script>
+
+	<script>
+		$(document).ready(function() {
+			App.init();
+			TableManageResponsive.init();
+			TableManageButtons.init();
+		});
+	</script>
 </body>
 </html>

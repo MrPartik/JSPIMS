@@ -1,9 +1,13 @@
 <?php
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 include('connect.php');
-session_start();
-$username = $_SESSION['username'];
+$fname = $_SESSION['F_NAME'];
+$role = $_SESSION['USER_ROLE'];
 
-if(!isset($_SESSION['username']))
+if(!isset($_SESSION['F_NAME']))
 {
     // not logged in
     header('Location: login.php');

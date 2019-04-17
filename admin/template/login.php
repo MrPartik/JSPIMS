@@ -9,16 +9,17 @@ if( isset($_POST["loginb"]))
 {
 
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = $_POST['USERNAME'];
+$password = $_POST['PASSWORD'];
 //$transtype = $_POST['transtype'];
 
-    $check = "SELECT * FROM users WHERE USERNAME='$username' and PASSWORD='$password'";
+    $check = "SELECT * FROM r_users WHERE USERNAME='$username' and PASSWORD='$password'";
    
     $check_q = mysqli_query($connect, $check) or die("<div class='loginmsg'>Error on checking Username<div>");
     while ($row = mysqli_fetch_assoc($check_q)) {
-        $role = $row['user_TYPE_FK'];
-        $uid = $row['user_ID'];
+        $role = $row['USER_ROLE'];
+        $uid = $row['USERID'];
+        $fname = $row['F_NAME'];
     }
         //echo $uid;
         //echo $transtype;
@@ -28,20 +29,22 @@ $password = $_POST['password'];
        // chcklogin($username, $password);
 
         //echo "correct username";
-        if ($role == 1)
+        if ($role == "admin")
         {
-        $_SESSION['username'] = $username;
+        $_SESSION['F_NAME'] = $fname;
+        $_SESSION['USER_ROLE'] = $role;
        /* $insert = "INSERT INTO `audit_trail`( `userid`, `transtype`, `transdatetime`) VALUES ($uid, '$transtype', CURRENT_TIMESTAMP)";
         
         $audittrail = mysqli_query($connect, $insert) or die("Bad query");*/
             
-        header('Location: index.php');
+        header('Location: stocks.php');
         }
         //header('Location: admin-dashboard.php');
-        elseif ($role == 2) {
-        $_SESSION['username'] = $username;
+        elseif ($role == "user") {
+        $_SESSION['F_NAME'] = $fname;
+        $_SESSION['USER_ROLE'] = $role;
 
-        header('Location: extra_404_error.html');
+        header('Location: U_requests.php');
         }
 
         //$insert = "INSERT INTO `audit_trail`( `userid`, `transtype`, `transdatetime`) VALUES ($uid, '$transtype', CURRENT_TIMESTAMP)";
@@ -135,10 +138,10 @@ $password = $_POST['password'];
                 <div class="login-content">
                     <form action="" method="POST" class="margin-bottom-0">
                         <div class="form-group m-b-15">
-                            <input type="text" class="form-control form-control-lg" name="username" placeholder="Username" required />
+                            <input type="text" class="form-control form-control-lg" name="USERNAME" placeholder="Username" required />
                         </div>
                         <div class="form-group m-b-15">
-                            <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" required />
+                            <input type="password" class="form-control form-control-lg" name="PASSWORD" placeholder="Password" required />
                         </div>
                         <div class="login-buttons">
                             <button type="submit" name="loginb" class="btn btn-success btn-block btn-lg">Log in</button>

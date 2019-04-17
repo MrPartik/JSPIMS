@@ -1,3 +1,10 @@
+<?php 
+	include 'INCLUDES/userdetails.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
 <!-- begin #header -->
 		<div id="header" class="header navbar-default">
 			<!-- begin navbar-header -->
@@ -20,12 +27,8 @@
 			
 			<!-- begin header-nav -->
 			<ul class="navbar-nav navbar-right">
-				<li>
-					<a href="#" data-toggle="navbar-search" class="icon">
-						<i class="material-icons">search</i>
-					</a>
-				</li>
-				<li class="dropdown">
+				
+				<!--<li class="dropdown">
 					<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle icon">
 						<i class="material-icons">inbox</i>
 						<span class="label">5</span>
@@ -95,11 +98,11 @@
 						<li class="dropdown-footer text-center">
 							<a href="javascript:;">View more</a>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<li class="dropdown navbar-user">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="d-none d-md-inline">Hi, Cecilia</span>
+						<span class="d-none d-md-inline">Hi, <?php echo $fname; ?></span>
 						<img src="../assets/img/user/user-12.jpg" alt="" /> 
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
@@ -108,15 +111,11 @@
 						<a href="javascript:;" class="dropdown-item">Calendar</a>
 						<a href="javascript:;" class="dropdown-item">Setting</a>
 						<div class="dropdown-divider"></div>
+						<form action="" method="POST">
 						<button type="submit" name="logout" class="dropdown-item">Log Out</button>
+						</form>
 					</div>
 				</li>
 			</ul>
 			<!-- end header navigation right -->
-			
-			<div class="search-form">
-				<button class="search-btn" type="submit"><i class="material-icons">search</i></button>
-				<input type="text" class="form-control" placeholder="Search Something..." />
-				<a href="#" class="close" data-dismiss="navbar-search"><i class="material-icons">close</i></a>
-			</div>
 		</div>

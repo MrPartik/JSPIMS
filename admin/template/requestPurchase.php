@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Stock Management</title>
+	<title>Color Admin | Purchase Request </title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -54,7 +54,7 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Manage Stocks</h1>
+			<h1 class="page-header">Purchase Request</h1>
 			<!-- end page-header -->
 			
 			<!-- begin panel -->
