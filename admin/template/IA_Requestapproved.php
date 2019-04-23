@@ -50,7 +50,7 @@ function show_requests($connect)
             $output .= '<th width="5%">Quantity</th>';
             $output .= '<th width="10%">Unit</th>';
             $output .= '<th width="5%">Amount</th>';
-            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition t ON r.SUP_ID = t.STOCK_SUPPLIER WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
+            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_SKU WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
             while($row1 = mysqli_fetch_assoc($results1))
             {
             $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';

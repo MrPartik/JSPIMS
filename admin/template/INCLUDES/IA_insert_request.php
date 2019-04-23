@@ -22,18 +22,18 @@ if(isset($_POST["item_name"]))
   if($item_name_clean != '' && $item_quan_clean != '' && $item_unit_clean != '' && $item_supplier_clean != '')
   {
    $batch_req = '
-    INSERT INTO `t_spare_requisition_summary` (`BATCH_NO`, `DATE_REQUESTED`, `DATE_REVISED`, `DATE_APPROVED`, `DATE_RELEASED`, `DATE_DELIVERED`, `STATUS_REQ`, `ACCEPT_STATUS`, `REMARKS`) VALUES ("'.$item_batch_clean.'", "'.$item_date_clean.'", NULL, NULL, NULL, NULL, 1, NULL, 4)
+    INSERT INTO `t_spare_requisition_summary` (`BATCH_NO`, `DATE_REQUESTED`, `DATE_REVISED`, `DATE_APPROVED`, `DATE_RELEASED`, `STATUS_REQ`, `REMARKS`) VALUES ("'.$item_batch_clean.'", "'.$item_date_clean.'", NULL, NULL, NULL, 1, 4)
     ';
    $query .= '
-   INSERT INTO `t_spare_requisition` (`REF_SKU`,`STOCK_NAME`, `STOCK_UNIT_TYPE`, `QUANTITY`,`STOCK_SUPPLIER`, `REF_BATCH_NO`) VALUES ("'.$item_name_clean.'","'.$item_name_clean.'", "'.$item_unit_clean.'", "'.$item_quan_clean.'","'.$item_supplier_clean.'","'.$item_batch_clean.'"); 
+   INSERT INTO `t_spare_requisition` (`REF_SKU`,`STOCK_NAME`, `STOCK_UNIT_TYPE`, `QUANTITY`,`STOCK_SUPPLIER`, `REF_BATCH_NO`) VALUES ("'.$item_name_clean.'","'.$item_name_clean.'", "'.$item_unit_clean.'", "'.$item_quan_clean.'","'.$item_supplier_clean.'","'.$item_batch_clean.'") 
    ';
   }
  }
  if($batch_req != '')
  {
-  if(mysqli_multi_query($connect, $batch_req))
+  if(mysqli_multi_query($connect, $query))
   {
-   mysqli_multi_query($connect, $query);
+   mysqli_multi_query($connect, $batch_req);
   }
   else
   {

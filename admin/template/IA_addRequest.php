@@ -19,7 +19,7 @@ function stock_name($connect)
         {
             $output .= '<option value="'.$row['STOCK_ID'].'">'.$row['STOCK_Name'].'</option>';
         }
-    return $output;
+    return $output; 
 }
 
 function stock_details($connect)
