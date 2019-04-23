@@ -77,24 +77,15 @@ function stock_details($connect)
     <!-- ================== BEGIN PAGE CSS STYLE ================== -->
     <link href="../assets/plugins/morris/morris.css" rel="stylesheet" />
     <!-- ================== END PAGE CSS STYLE ================== -->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 		<!-- begin #content -->
 		<div id="content" class="content">
 			<!-- begin breadcrumb -->
-			<ol class="breadcrumb pull-right">
-				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-				<li class="breadcrumb-item"><a href="javascript:;">Page Options</a></li>
-				<li class="breadcrumb-item active">Blank Page</li>
-			</ol>
-			<!-- end breadcrumb -->
-			<!-- begin page-header -->
-			<h1 class="page-header" style="color:#e8eaed">Request</h1>
-			<!-- end page-header -->
-			<!-- end #header -->
-
-			<!-- begin panel -->
+			
              <div class="row">
                 <!-- begin col-6 -->
                 <div class="col-12">
@@ -121,107 +112,68 @@ function stock_details($connect)
 
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
-                                    Request Form
+                                    Purchase Form
                                 <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
                                 </header>
-                                
                                 <div class="panel-body" id="r_input">
-                                    <div class="adv-table">
-                                        <table class="display table table-bordered table-striped">                                
-                                            <tr>
-                                                <td>                          
-                                                    <form>
-                                                        <div class="form-content">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <p><button type="button" id="btnAdd" class="btn btn-primary">Add</button></p>
-                                                                </div>
-                                                            </div>
-                                                             <?php  
-
-                                                                 include('INCLUDES/connect.php');
-
+                                <div class="row" style="margin-left:5px">
+                                    <div class="form-group m-r-10">
+                                        <label>Request No.</label>
+                                        <input type="text" class="form-control" disabled="true">
+                                    </div>
+                                    <div class="form-group m-r-10">
+                                        <label>Date</label>
+                                        <input type="text" class="form-control" disabled="true">
+                                    </div>
+                                </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="crud_table">
+                                         <tr>
+                                          <th width="30%">Item Name</th>
+                                          <th width="10%">Quantity</th>
+                                          <th width="45%">Unit</th>
+                                          <th width="10%">Price</th>
+                                          <th width="5%"></th>
+                                         </tr>
+                                         <tr>
+                                          <td contenteditable="true" class="item_name">
+                                              <select id="supplier" class="form-control m-r-10">
+                                                   <option value="" selected disabled></option>
+                                                   <?php
+                                                   $supsql="SELECT * FROM r_supplier";
+                                                   $results = mysqli_query($connect, $supsql) or die("Bad Query: $sql");
+                                                            while($row = mysqli_fetch_assoc($results))
                                                                 {
-                                                                    
-                                                                $result = mysqli_query($connect, "SELECT MAX(SUM_ID) FROM t_spare_requisition_summary");
-                                                                $row = mysqli_fetch_array($result);
-                                                                $sum_id = $row[0];
-                                                                $new_id = $sum_id + 1;
-
-                                                            ?>
-                                                            <div class="form-group">
-                                                                <input type="hidden" id="batch_id" value="<?php echo $new_id; ?>">
-                                                            </div> <?php } ?>
-                                                            <div class="form-group">
-                                                                <input type="hidden" id="currentdate" value="<?php echo date('Y-m-d') ?>">
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div style="padding: 1px; margin-bottom: 10px; background-color: #E0E1E7;">                                                             
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row group">
-                                                                <div class="col-md-2" id="input" hidden>
-
-                                                                </div>                                                        
-                                                                <div class="col-md-5">
-                                                                    <div class="form-group m-r-10">
-                                                                       <label>Stock Name:</label>
-                                                                       <select name="r_sid" id="r_sid" class="form-control m-r-10" style="margin-left:10px">
-                                                                           <option value="" selected disabled></option>
-                                                                           <?php echo stock_name($connect);?>
-                                                                       </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-1">
-                                                                    <div class="form-group">
-                                                                        <label>Quantity</label>
-                                                                        <input style="color: black; padding-right: 2px;" type="number" id="r_quantity" class="form-control" required="" minlength="3" min="1" max="100" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <div class="form-group">
-                                                                    <label>Supplier</label>
-                                                                    <div id="supplierName">
-                                                                        <input class="form-control" disabled="true">
-                                                                    </div>
-                                                                    </div>
-                                                                </div>   
-                                                                <div class="col-md-1">
-                                                                    <div class="form-group">
-                                                                        <button href="#supplierModel" class="btn btn-warning" id="supID" data-toggle="modal" data-id="'.$row[''].'" style="margin-top: 23px;">View Supplier(s)</button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-1">
-                                                                    <div class="form-group">
-                                                                        <button style="display:none"type="button" class="btn btn-danger btnRemove" style="margin-top: 23px;">Remove</button>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                <div class="col-md-12">
-                                                                    <div style="padding: 1px; margin-bottom: 10px; background-color: #E0E1E7;">                                                 
-                                                                    </div>
-                                                                </div>
-                                                            </div>  
-                                                        </div>  
-                                                    </form>  
-                                                        <a id="submitRequest" href="reviewRequest.php" class="btn btn-success"> Submit</button>
-                                                        <!--<button onclick="sub()" class="btn btn-success">SUBMIT</button>-->
-                                                </td> 
-                                            </tr>
+                                                                $supid = $row['SUP_ID'];
+                                                                 $sup = $row['SUP_NAME'];
+                                                    ?>
+                                                    <option value="<?php echo "$supid"; ?>"><?php echo "$sup"; ?></option>
+                                                    <?php } ?>
+                                               </select>
+                                          </td>
+                                          <td contenteditable="true" class="item_code"></td>
+                                          <td contenteditable="true" class="item_desc"></td>
+                                          <td contenteditable="true" class="item_price"></td>
+                                          <td></td>
+                                         </tr>
                                         </table>
+                                        <div align="right">
+                                         <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
                                         </div>
+                                        <div align="center">
+                                         <button type="button" name="save" id="save" class="btn btn-info">Save</button>
                                         </div>
+                                        <br />
+                                       </div>
+                                </div>
+                            </section>
                         </div>
-                    </div>
-                </section>
-
-                           </div>
+                        <div class="tab-pane fade" id="AqPO">
+                            Hello
                         </div>
                     </div>
                 </div>
-            </div>      
+            </div>    
             
             <!--  
                 M O D A LS
@@ -244,175 +196,86 @@ function stock_details($connect)
                     </div>
 	</div>
 	<!-- end page container -->
-	
-    
-     <script>
-        $(document).ready(function() {
-           $('#r_sid').change(function(){
-                var stock_id = $(this).val();
-                $.ajax({
-                    url:"load_req_stocks.php",
-                    method:"POST",
-                    data:{stock_id:stock_id},
-                    success:function(data){
-                        $('#input').html(data);
-                    }
-                });
-           });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-           $('#r_sid').change(function(){
-                var stock_id = $(this).val();
-                $.ajax({
-                    url:"load_req_supplier.php",
-                    method:"POST",
-                    data:{stock_id:stock_id},
-                    success:function(data){
-                        $('#supplierT').html(data);
-                    }
-                });
-           });
-        });
-    </script>
-<script>
-  $(document).ready(function(){
+	<script src="../assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../assets/plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="../assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="../assets/crossbrowserjs/respond.min.js"></script>
+        <script src="../assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../assets/plugins/js-cookie/js.cookie.js"></script>
+    <script src="../assets/js/theme/default.min.js"></script>
+    <script src="../assets/js/apps.min.js"></script>
 
-    //  append values in input fields
-      $(document).on('click','a[data-role=sub]',function(){
-            var id  = $(this).data('id');
-            $.ajax({
-                    url:"load_req_supplier_1.php",
-                    method:"POST",
-                    data:{id:id},
-                    success:function(data){
-                        $('#supplierName').html(data);
-                        $('#supplierModel').modal('toggle');
-                    }
-                });
-      });
+<script>
+$(document).ready(function(){
+ var count = 1;
+ $('#add').click(function(){
+  count = count + 1;
+  var html_code = "<tr id='row"+count+"'>";
+   html_code += "<td contenteditable='true' class='item_name'><select id='supplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $supsql='SELECT * FROM r_supplier';$results = mysqli_query($connect, $supsql) or die('Bad Query: $sql');while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$sup = $row['SUP_NAME'];?><option value='<?php echo '$supid'; ?>''><?php echo "$sup"; ?></option><?php } ?></select></td>";
+   html_code += "<td contenteditable='true' class='item_code'></td>";
+   html_code += "<td contenteditable='true' class='item_desc'></td>";
+   html_code += "<td contenteditable='true' class='item_price' ></td>";
+   html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
+   html_code += "</tr>";  
+   $('#crud_table').append(html_code);
+ });
+ 
+ $(document).on('click', '.remove', function(){
+  var delete_row = $(this).data("row");
+  $('#' + delete_row).remove();
+ });
+ 
+ $('#save').click(function(){
+  var item_name = [];
+  var item_code = [];
+  var item_desc = [];
+  var item_price = [];
+  $('.item_name').each(function(){
+   item_name.push($(this).text());
   });
+  $('.item_code').each(function(){
+   item_code.push($(this).text());
+  });
+  $('.item_desc').each(function(){
+   item_desc.push($(this).text());
+  });
+  $('.item_price').each(function(){
+   item_price.push($(this).text());
+  });
+  $.ajax({
+   url:"insert.php",
+   method:"POST",
+   data:{item_name:item_name, item_code:item_code, item_desc:item_desc, item_price:item_price},
+   success:function(data){
+    alert(data);
+    $("td[contentEditable='true']").text("");
+    for(var i=2; i<= count; i++)
+    {
+     $('tr#'+i+'').remove();
+    }
+    fetch_item_data();
+   }
+  });
+ });
+ 
+ function fetch_item_data()
+ {
+  $.ajax({
+   url:"fetch.php",
+   method:"POST",
+   success:function(data)
+   {
+    $('#inserted_item_data').html(data);
+   }
+  })
+ }
+ fetch_item_data();
+ 
+});
 </script>
-<script>
-  function sub(){
-    var date = document.getElementById('currentdate').value;
-    var e = document.getElementById('r_sid');
-    var sid = e.options[e.selectedIndex].value;
-    var sku = document.getElementById('r_sku').value;
-    alert(sid);
-  }
-</script>
-<script type="text/javascript">
-        $('#submitRequest').click(function(e){
-            e.preventDefault();
-
-            var e = document.getElementById('sid');
-            var sid = e.options[e.selectedIndex].value;
-            var sku = document.getElementById('r_sku').value;
-            var batch_id = document.getElementById('batch_id').value;
-            var date = document.getElementById('currentdate').value;
-            //var sname = document.getElementById('r_name').value;
-            //var smodel = document.getElementById('r_model').value;
-            //var size = document.getElementById('r_size').value;
-            //var sbrand = document.getElementById('r_brand').value;
-            //var sunit = document.getElementById('sunit').value;
-            //var quan = document.getElementById('r_quantity').value;
-            //var sup = document.getElementById('r_supp');*/
-
-         if (sku == "")
-            {
-            }
-            else
-            {
-                swal({
-                        title: "Confirm Details?",
-                        text: "",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: '#b05544',
-                        confirmButtonText: 'Yes',
-                        cancelButtonText: "No",
-                        closeOnConfirm: false,
-                        closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
-                        $.ajax({
-                                    type: 'POST',
-                                    url: 'INCLUDES/addSuppliers.php',
-                                    async: false,
-                                    data: {
-                                        sku:sku,
-                                        batch_id:batch_id,
-                                        currentdate:currentdate,
-                                        //sname:sname,
-                                        smodel: smodel,
-                                        quan: quan
-                                        /*sbrand: sbrand,
-                                        size: size,
-                                        sunit: sunit,
-                                        sup: sup*/
-                                     },
-                                    success: function(data) {
-
-                                        swal("Stock Updated! ", "Page will be reloaded.", "success");
-                                        
-                                        setTimeout(function() 
-                                        {
-                                            window.location = 'reviewRequest.php';
-                                            return true;
-                                        },3000);
-                                    },
-                                    error: function(data) {
-                                       
-                                        swal("Error", "Something is wrong.", "error");
-                                    }
-                                }); 
-                    } 
-                    else
-                    {
-                        swal("Cancelled", "Account is not created.", "error");
-                    }
-                }); */
-             }
-        });
-    </script>
-
-    <script>
-
-        $('.form-content').multifield({
-            section: '.group',
-            btnAdd:'#btnAdd',
-            btnRemove:'.btnRemove',
-        });
-
-        $(function(){
-            $('select').on('change',function(){                        
-                $('input[name=place]').val($(this).val());            
-            });
-        });
-
-        $(function(){
-            $('select').on('change',function(){                        
-                $('input[name=reqperson]').val($(this).val());            
-            });
-        });
-
-        $(function(){
-            $('select').on('change',function(){                        
-                $('input[name=asttypesss]').val($(this).val());            
-            });
-        });
-
-</script>
-
-	<script>
-		$(document).ready(function() {
-			App.init();
-			TableManageResponsive.init();
-			TableManageButtons.init();
-		});
-	</script>
 </body>
 </html>

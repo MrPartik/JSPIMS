@@ -1,9 +1,17 @@
-<?php 
+<?php
 	include 'INCLUDES/userdetails.php';
+	include 'INCLUDES/header.php';
+	include 'INCLUDES/sidebar.php';
 ?>
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Blank Page</title>
+	<title>Color Admin | Purchase Request </title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -30,99 +38,78 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<div id="sidebar" class="sidebar" data-disable-slide-animation="true">
-			<!-- begin sidebar scrollbar -->
-			<div data-scrollbar="true" data-height="100%">
-				<!-- begin sidebar user -->
-				<ul class="nav">
-					<li class="nav-profile">
-						<a href="javascript:;" data-toggle="nav-profile">
-							<div class="cover with-shadow"></div>
-							<div class="image">
-								<img src="../assets/img/user/user-12.jpg" alt="" />
-							</div>
-							<div class="info">
-								<b class="caret pull-right"></b>
-								<?php echo $fname; ?>
-								<small><?php echo $role; ?></small>
-							</div>
-						</a>
-					</li>
-					<li>
-						<ul class="nav nav-profile">
-                            <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-                            <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
-                        </ul>
-					</li>
-				</ul>
-				<!-- end sidebar user -->
-				<!-- begin sidebar nav -->
-				<ul class="nav">
-					<li class="nav-header">Navigation</li>
-					<li class="has-sub">
-						<a href="index.php">
-							<i class="material-icons">insert_chart</i>
-							<span>Dashboard</span>
-						</a>
-					</li>
-					<li class="has-sub">
-						<a href="IA_stocks.php">
-							<i class="material-icons">list</i>
-							<span>Stock Monitoring</span>
-						</a>
-						
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
-							<span>Purchase</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="requestPurchase.php">Purchase</a></li>
-							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
-							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
-							<span>Acquisition</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="IA_acquired.php">Acquired</a></li>
-							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
-							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire from Purchase</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="">
-							<i class="material-icons">upload</i>
-							<span>Stock Issuance</span>
-						</a>
-						
-					</li>
+<body>
+	<!-- begin #page-loader -->
+	<!-- end #page-loader -->
+	
+	<!-- begin #page-container -->
+	
+		<!-- begin #content -->
+		<div id="content" class="content">
+			<!-- begin breadcrumb -->
+			<ol class="breadcrumb pull-right">
+				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+				<li class="breadcrumb-item"><a href="javascript:;">Page Options</a></li>
+				<li class="breadcrumb-item active">Blank Page</li>
+			</ol>
+			<!-- end breadcrumb -->
+			<!-- begin page-header -->
+			<h1 class="page-header">Approved Requests</h1>
+			<!-- end page-header -->
+			<div class="form-group">
+			<a href="IA_addRequest.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Request</a>
+            </div>
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">PURCHASE REQUESTS</h4>
+				</div>
+				<div class="panel-body">
+						<table id="data-table-buttons" class="table table-striped table-bordered">  
+                                <thead>
+                                </tbody>
+                                    <tr>
+                                    	<th class="text-nowrap">Batch No</th>
+                                        <th class="text-nowrap">Date Requested</th>
+                                        <th class="text-nowrap">Date Approved</th>
+                                        <th class="text-nowrap">Remarks</th>
+                                        <th class="text-nowrap"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_status RR ON RR.STATUS_ID = RS.STATUS_REQ WHERE STATUS_REQ = '2'");
+                                    while ($row=mysqli_fetch_assoc($req)) {
+                                        $bno = $row["BATCH_NO"];
+                                        $datereq = $row["DATE_REQUESTED"];
+                                        $daterev = $row["DATE_APPROVED"];
+                                        $remarks = $row["STATUS_VAL"];
+                                
+                                ?>
+                                    <tr class="odd gradeX">
+                                    	<td><?php echo $bno;?></td>
+                                        <td><?php echo $datereq;?></td>
+                                        <td><?php echo $daterev;?></td>
+                                        <td><?php echo $remarks;?></td>
+                                        <td><a href="IA_Requestapproved.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a></td>
+                                <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-						    <i class="material-icons">report</i>
-						    <span>Reports <span class="label label-theme m-l-5">NEW</span></span> 
-						</a>
-						<ul class="sub-menu">
-							<li><a href="appProgram.php">List of Applicants by Program</a></li>
-							<li class="active"><a href="appRoom.php">List of Applicants by Room</a></li>
-							<li><a href="appSched.php">List of Applicants by Sched</a></li>
-						</ul>
-					</li>
-					
-				</ul>
-				<!-- end sidebar nav -->
+                   
+
 			</div>
-			<!-- end sidebar scrollbar -->
+			<!-- end panel -->
 		</div>
+		<!-- end #content -->
+		<!-- begin scroll to top btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="material-icons">keyboard_arrow_up</i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+	
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="../assets/plugins/jquery/jquery-3.2.1.min.js"></script>
 	<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -159,4 +146,13 @@
 	<script src="../assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 	<script src="../assets/js/demo/table-manage-buttons.demo.min.js"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
-	
+
+	<script>
+		$(document).ready(function() {
+			App.init();
+			TableManageResponsive.init();
+			TableManageButtons.init();
+		});
+	</script>
+</body>
+</html>

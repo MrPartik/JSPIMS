@@ -1,9 +1,17 @@
-<?php 
+<?php
 	include 'INCLUDES/userdetails.php';
+	include 'INCLUDES/header.php';
+	include 'INCLUDES/sidebar.php';
 ?>
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Blank Page</title>
+	<title>Color Admin | Stock Management</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -30,99 +38,86 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<div id="sidebar" class="sidebar" data-disable-slide-animation="true">
-			<!-- begin sidebar scrollbar -->
-			<div data-scrollbar="true" data-height="100%">
-				<!-- begin sidebar user -->
-				<ul class="nav">
-					<li class="nav-profile">
-						<a href="javascript:;" data-toggle="nav-profile">
-							<div class="cover with-shadow"></div>
-							<div class="image">
-								<img src="../assets/img/user/user-12.jpg" alt="" />
-							</div>
-							<div class="info">
-								<b class="caret pull-right"></b>
-								<?php echo $fname; ?>
-								<small><?php echo $role; ?></small>
-							</div>
-						</a>
-					</li>
-					<li>
-						<ul class="nav nav-profile">
-                            <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-                            <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
-                        </ul>
-					</li>
-				</ul>
-				<!-- end sidebar user -->
-				<!-- begin sidebar nav -->
-				<ul class="nav">
-					<li class="nav-header">Navigation</li>
-					<li class="has-sub">
-						<a href="index.php">
-							<i class="material-icons">insert_chart</i>
-							<span>Dashboard</span>
-						</a>
-					</li>
-					<li class="has-sub">
-						<a href="IA_stocks.php">
-							<i class="material-icons">list</i>
-							<span>Stock Monitoring</span>
-						</a>
-						
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
-							<span>Purchase</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="requestPurchase.php">Purchase</a></li>
-							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
-							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
-							<span>Acquisition</span>
-						</a>
-						<ul class="sub-menu">
-							<li><a href="IA_acquired.php">Acquired</a></li>
-							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
-							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire from Purchase</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="">
-							<i class="material-icons">upload</i>
-							<span>Stock Issuance</span>
-						</a>
-						
-					</li>
+<body>
+	<!-- begin #page-loader -->
+	<!-- end #page-loader -->
+	
+	<!-- begin #page-container -->
+	
+		<!-- begin #content -->
+		<div id="content" class="content">
+			<!-- begin breadcrumb -->
+			<ol class="breadcrumb pull-right">
+				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+				<li class="breadcrumb-item"><a href="javascript:;">Page Options</a></li>
+				<li class="breadcrumb-item active">Blank Page</li>
+			</ol>
+			<!-- end breadcrumb -->
+			<!-- begin page-header -->
+			<h1 class="page-header">Manage Stocks</h1>
+			<!-- end page-header -->
+			
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Spare Parts Inventory</h4>
+				</div>
+				<div class="panel-body">
+						<table id="data-table-buttons" class="table table-striped table-bordered">  
+                                <thead>
+                                    <tr>
+                                    	<th hidden></th>
+                                        <th class="text-nowrap">SKU</th>
+                                        <th class="text-nowrap">Name</th>
+                                        <th class="text-nowrap">Unit Type</th>
+                                        <th class="text-nowrap">Condition</th>
+                                        <th class="text-nowrap">Quantity</th>
+                                        <th class="text-nowrap">Stock Level</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME 
+                                                                    FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
+                                                                    INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
+                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
+                                    while ($row=mysqli_fetch_assoc($stock)) {
+                                        $sid = $row["STOCK_ID"];
+                                        $sku = $row["STOCK_KEY_UNIT"];
+                                        $sname = $row["STOCK_Name"];
+                                        $sut = $row["UNIT_TYPE"];
+                                        $scon = $row["CON_NAME"];
+                                        $squa = $row["STOCK_QUANTITY"];
+                                        $scl = $row["STOCK_CRITICAL_LEVEL"];
+                                
+                                ?>
+                                    <tr class="odd gradeX">
+                                    	<td hidden><?php echo $sid;?></td>
+                                        <td><?php echo $sku;?></td>
+                                        <td><?php echo $sname;?></td>
+                                        <td><?php echo $sut;?></td>
+                                        <td><?php echo $scon;?></td>
+                                        <td><?php echo $squa;?></td>
+                                        <td><span class="label label-theme m-l-5"><?php echo $scl;?></span></td>
+                                <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-					<li class="has-sub">
-						<a href="javascript:;">
-					        <b class="caret"></b>
-						    <i class="material-icons">report</i>
-						    <span>Reports <span class="label label-theme m-l-5">NEW</span></span> 
-						</a>
-						<ul class="sub-menu">
-							<li><a href="appProgram.php">List of Applicants by Program</a></li>
-							<li class="active"><a href="appRoom.php">List of Applicants by Room</a></li>
-							<li><a href="appSched.php">List of Applicants by Sched</a></li>
-						</ul>
-					</li>
-					
-				</ul>
-				<!-- end sidebar nav -->
+                   
+
 			</div>
-			<!-- end sidebar scrollbar -->
+			<!-- end panel -->
 		</div>
+		<!-- end #content -->
+		<!-- begin scroll to top btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="material-icons">keyboard_arrow_up</i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+	
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="../assets/plugins/jquery/jquery-3.2.1.min.js"></script>
 	<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -159,4 +154,13 @@
 	<script src="../assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 	<script src="../assets/js/demo/table-manage-buttons.demo.min.js"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
-	
+
+	<script>
+		$(document).ready(function() {
+			App.init();
+			TableManageResponsive.init();
+			TableManageButtons.init();
+		});
+	</script>
+</body>
+</html>

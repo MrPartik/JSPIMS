@@ -46,6 +46,12 @@ $password = $_POST['PASSWORD'];
 
         header('Location: U_requests.php');
         }
+        elseif ($role == "Owner") {
+        $_SESSION['F_NAME'] = $fname;
+        $_SESSION['USER_ROLE'] = $role;
+
+        header('Location: O_requests.php');
+        }
 
         //$insert = "INSERT INTO `audit_trail`( `userid`, `transtype`, `transdatetime`) VALUES ($uid, '$transtype', CURRENT_TIMESTAMP)";
         

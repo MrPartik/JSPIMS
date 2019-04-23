@@ -7,7 +7,7 @@ $output='';
 if (isset($_POST["stock_id"])) {
 	if ($_POST["stock_id"] != '') {
 		    
-		$sql = "SELECT sa.AQ_ID, sa.ITEM_SKU,r.SUP_NAME FROM t_spare_acquisition as sa INNER JOIN r_supplier as r ON r.SUP_ID = sa.SUPPLIER WHERE sa.ITEM_SKU = 'SP-00003A'";
+		$sql = "SELECT sa.AQ_ID, sa.ITEM_SKU,r.SUP_NAME FROM t_spare_acquisition as sa INNER JOIN r_supplier as r ON r.SUP_ID = sa.SUPPLIER WHERE sa.ITEM_SKU = '".$_POST["stock_id"]."'";
 	}
 	else {
 		$sql = "SELECT sa.ITEM_SKU,r.SUP_NAME FROM t_spare_acquisition as sa INNER JOIN r_supplier as r ON r.SUP_ID = sa.SUPPLIER";

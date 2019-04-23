@@ -39,6 +39,17 @@ function stock_details($connect)
     return $output;
 }
 
+function batchNo($connect) 
+{
+    $output = '';
+
+    $result = mysqli_query($connect, "SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary");
+    $row = mysqli_fetch_array($result);
+    $sum_id = $row[0];
+    $new_id = $sum_id + 1;
+    $output .= $new_id;
+    return $output;
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,6 +74,9 @@ function stock_details($connect)
     <link href="../assets/css/material/style.min.css" rel="stylesheet" />
     <link href="../assets/css/material/style-responsive.min.css" rel="stylesheet" />
     <link href="../assets/css/material/theme/orange.css" rel="stylesheet" id="theme" />
+    <link href="../assets/css/default/style.min.css" rel="stylesheet" />
+    <link href="../assets/css/default/style-responsive.min.css" rel="stylesheet" />
+    <link href="../assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
     
     <!-- ================== BEGIN BASE JS ================== -->
@@ -80,94 +94,68 @@ function stock_details($connect)
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
 <body>
-        <!-- begin #content -->
-        <div id="content" class="content">
-            <!-- begin breadcrumb -->
-            
-             <div class="row">
-                <!-- begin col-6 -->
-                <div class="col-12">
-                    <!-- begin nav-tabs -->
-                    <ul class="nav nav-tabs">
-                        <li class="nav-items">
-                            <a href="#AddIndiv" data-toggle="tab" class="nav-link active">
-                                <span class="d-sm-none">Request for Old Stock</span>
-                                <span class="d-sm-block d-none">Request for Old Stock</span>
-                            </a>
-                        </li>
-                        <li class="nav-items">
-                            <a href="#AqPO" data-toggle="tab" class="nav-link">
-                                <span class="d-sm-none">Request for New Stock</span>
-                                <span class="d-sm-block d-none">Request for New Stock</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- end nav-tabs -->
-                    <!-- begin tab-content -->
-                    <div class="tab-content">
-                        <!-- begin tab-pane -->
-                        <div class="panel panel-inverse tab-pane fade active show" id="AddIndiv">
-
-                            <section class="panel">
-                                <header class="panel-heading" style="background-color: gray; color: white">
-                                    Purchase Form
-                                <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
-                                </header>
-                                <div class="panel-body" id="r_input">
-                                <div class="row" style="margin-left:5px">
-                                    <div class="form-group m-r-10">
-                                        <label>Request No.</label>
-                                        <input type="text" class="form-control" disabled="true">
-                                    </div>
-                                    <div class="form-group m-r-10">
-                                        <label>Date</label>
-                                        <input type="text" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
-                                    </div>
-                                    <div class="" id="test">
-                                        
-                                    </div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="crud_table">
-                                         <tr>
-                                          <th width="30%">Item Name</th>
-                                          <th width="10%">Quantity</th>
-                                          <th width="10%">Unit</th>
-                                          <th width="45%">Supplier</th>
-                                          <th width="5%"></th>
-                                         </tr>
-                                         <tr>
-                                          <td contenteditable="true" class="item_name">
-                                              <select id="stockname" name="stockname" class="form-control m-r-10">
-                                                   <option value="" selected disabled></option>
-                                                   <?php echo stock_name($connect);?>
-                                               </select>
-                                          </td>
-                                          <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td contenteditable="true" class="item_unit" id="item_unit"></td>
-                                          <td contenteditable="true" class="item_supplier"></td>
-                                          <td></td>
-                                         </tr>
-                                        </table>
-                                        <div align="right">
-                                         <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
-                                        </div>
-                                        <div align="center">
-                                         <button type="button" name="save" id="save" class="btn btn-info">Save</button>
-                                        </div>
-                                        <br />
-                                       </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="tab-pane fade" id="AqPO">
-                            Hello
-                        </div>
-                    </div>
-                </div>
-            </div>   
+  <!-- begin #content -->
+  <div id="content" class="content">
+      <h3>Acquire New Stock</h3><br/>
+      <div class="panel panel-inverse">
+        <section class="panel">
+          <header class="panel-heading" style="background-color: gray; color: white">
+            Acquisition Form
+            <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
+          </header>
+          <div class="panel-body" id="r_input">
+            <div class="row" style="margin-left:5px">
+              <div class="form-group m-r-10">
+                <label>Request No.</label>
+                <input type="text" id="bno" name="bno" class="form-control" disabled="true" value="<?php echo batchNo($connect);?>">
+              </div>
+              <div class="form-group m-r-10">
+                <label>Date</label>
+                <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered" id="crud_table">
+               <tr>
+                <th width="6%" hidden>b_no</th>
+                <th width="6%" hidden>date</th>
+                <th width="30%">Item Name</th>
+                <th width="5%">Quantity</th>
+                <th width="10%">Unit</th>
+                <th width="30%">Supplier</th>
+                <th width="5%"></th>
+              </tr>
+              <tr>
+                <td contenteditable="true" class="item_batch" hidden><?php echo batchNo($connect)?></td>
+                <td contenteditable="true" class="item_date" hidden><?php echo date('Y-m-d') ?></td>
+                <td contenteditable="true" class="item_name">
+                  <select id="stockname" name="stockname" class="form-control m-r-10">
+                   <option value="" selected disabled></option>
+                   <?php echo stock_name($connect);?>
+                 </select>
+               </td>
+               <td contenteditable="true" class="item_quan" type="number"></td>
+               <td contenteditable="true" class="item_unit" id="item_unit"></td>
+               <td contenteditable="true" class="item_supplier"></td>
+               <td></td>
+             </tr>
+           </table>
+           <div align="right">
+             <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
+           </div>
+           <div align="center">
+             <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+           </div>
+         </div>
+       </div>
+     </section>
+   </div>
+ </div>
+</div>   
             <!--  
                 M O D A LS
             --> 
@@ -218,12 +206,16 @@ function stock_details($connect)
     <script src="../assets/js/theme/default.min.js"></script>
     <script src="../assets/js/apps.min.js"></script>
 
+    <script src="../assets/js/sweetalert/sweetalert.min.js"></script>
+
 <script>
 $(document).ready(function(){
  var count = 1;
  $('#add').click(function(){
   count = count + 1;
   var html_code = "<tr id='row"+count+"'>";
+   html_code = "<td contenteditable='true' class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
+   html_code += "<td contenteditable='true' class='item_date'hidden><?php echo date('Y-m-d') ?></td>";
    html_code += "<td contenteditable='true' class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockname"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
    html_code += "<td contenteditable='true' class='item_unit' id='item_unit'></td>";
@@ -243,6 +235,9 @@ $(document).ready(function(){
   var item_quan = [];
   var item_unit = [];
   var item_supplier = [];
+  var item_batch = [];
+  var item_date = [];
+  var bno = document.getElementById('bno').value;
   $('.item_name option:selected').each(function(){
    item_name.push($(this).val());
   });
@@ -255,20 +250,67 @@ $(document).ready(function(){
   $('.item_supplier').each(function(){
    item_supplier.push($(this).text());
   });
-  $.ajax({
-   url:"insert.php",
-   method:"POST",
-   data:{item_name:item_name, item_quan:item_quan, item_unit:item_unit, item_supplier:item_supplier},
-   success:function(data){
-    alert(data);
-    $("td[contentEditable='true']").text("");
-    for(var i=2; i<= count; i++)
-    {
-     $('tr#'+i+'').remove();
-    }
-    fetch_item_data();
-   }
+  $('.item_batch').each(function(){
+   item_batch.push($(this).text());
   });
+  $('.item_date').each(function(){
+   item_date.push($(this).text());
+  });
+  if (item_name == "")
+    {
+    }
+  else
+    {
+  swal({
+        title: "Confirm Request Details?",
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#b05544',
+        confirmButtonText: 'Yes',
+        cancelButtonText: "No",
+        closeOnConfirm: false,
+        closeOnCancel: false
+        },
+        function(isConfirm){
+        if (isConfirm) {
+            $.ajax({
+                    url:"INCLUDES/IA_insert_request.php",
+                    method:"POST",
+                    data:{item_name:item_name, 
+                        item_quan:item_quan, 
+                        item_unit:item_unit, 
+                        item_supplier:item_supplier,
+                        item_batch:item_batch,
+                        item_date:item_date,
+                        bno:bno},
+            success:function(data)
+            {
+            swal("Requested! ", "Page will be reloaded.", "success");
+            setTimeout(function() 
+            {   
+                $("td[contentEditable='true']").text("");
+            for(var i=2; i<= count; i++)
+             {
+                 $('tr#'+i+'').remove();
+             }
+            fetch_item_data();
+                window.location = 'IA_Requestadded.php?batch_no='+ bno;
+
+                return true;
+            },3000);
+           },
+           error: function(data) {
+                   swal("Error", "Something is wrong.", "error");
+                                }
+            });
+            }
+        else
+        {
+            swal("Cancelled", "Request is not created.", "error");
+        }
+    });
+    }
  });
  
  function fetch_item_data()

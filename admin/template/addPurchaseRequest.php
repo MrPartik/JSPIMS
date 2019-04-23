@@ -193,7 +193,7 @@ function stock_details($connect)
                                                                 </div>   
                                                                 <div class="col-md-1">
                                                                     <div class="form-group">
-                                                                        <button href="#supplierModel" class="btn btn-warning" id="supID" data-toggle="modal" data-id="'.$row[''].'" style="margin-top: 23px;">View Supplier(s)</button>
+                                                                        <button href="#supplierModel" class="btn btn-warning" id="supID" data-toggle="modal" data-id="'3'" style="margin-top: 23px;">View Supplier(s)</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-1">
@@ -332,7 +332,7 @@ function stock_details($connect)
                         $('#supplierName').html(data);
                         $('#supplierModel').modal('toggle');
                     }
-                });
+                }); 
       });
   });
 </script>
