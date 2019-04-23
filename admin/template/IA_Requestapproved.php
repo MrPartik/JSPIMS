@@ -2,8 +2,7 @@
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
     include 'INCLUDES/sidebar.php';
-
-$connect = mysqli_connect('localhost', 'root', '','jspims');
+    include 'INCLUDES/connect.php';
 
 if (isset($_GET['batch_no'])) 
     {

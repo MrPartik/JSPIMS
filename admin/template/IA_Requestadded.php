@@ -2,8 +2,7 @@
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
     include 'INCLUDES/sidebar.php';
-
-$connect = mysqli_connect('localhost', 'root', '','jspims');
+    include 'INCLUDES/connect.php';
 
 if (isset($_GET['batch_no'])) 
     {
@@ -38,7 +37,7 @@ function show_requests($connect)
 {   
     $bno = $_GET['batch_no'];
     $output = '';
-    $results = mysqli_query($connect, "SELECT DISTINCT `STOCK_SUPPLIER`, REF_BATCH_NO, SUP_NAME  FROM t_spare_requisition INNER JOIN r_supplier ON r_supplier.SUP_ID = t_spare_requisition.STOCK_SUPPLIER WHERE REF_BATCH_NO = $bno");
+    $results = mysqli_query($connect, "SELECT DISTINCT `STOCK_SUPPLIER`, SUP_NAME, REF_BATCH_NO FROM t_spare_requisition_old_stock INNER JOIN r_supplier ON r_supplier.SUP_ID = t_spare_requisition_old_stock.STOCK_SUPPLIER WHERE REF_BATCH_NO = $bno");
     
     while($row = mysqli_fetch_assoc($results))
         {
@@ -53,7 +52,7 @@ function show_requests($connect)
             $output .= '<th width="5%">Quantity</th>';
             $output .= '<th width="10%">Unit</th>';
             $output .= '<th width="5%">Amount</th>';
-            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_SKU WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
+            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
             while($row1 = mysqli_fetch_assoc($results1))
             {
             $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';

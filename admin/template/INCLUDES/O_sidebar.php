@@ -32,6 +32,13 @@
 				<ul class="nav">
 					<li class="nav-header">Navigation</li>
 					<li class="has-sub">
+						<a href="O_stocks.php">
+							<i class="material-icons">insert_chart</i>
+							<span>Stocks</span>
+						</a>
+					</li>
+					<li class="nav-header">Navigation</li>
+					<li class="has-sub">
 						<a href="O_requests.php">
 							<i class="material-icons">insert_chart</i>
 							<span>Requests</span>

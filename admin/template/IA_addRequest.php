@@ -2,6 +2,7 @@
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
     include 'INCLUDES/sidebar.php';
+    include 'INCLUDES/connect.php';
 
 $connect = mysqli_connect('localhost', 'root', '','jspims');
 
@@ -150,7 +151,6 @@ function batchNo($connect)
                                           <th width="6%" hidden>date</th>
                                           <th width="30%">Item Name</th>
                                           <th width="5%">Quantity</th>
-                                          <th width="10%">Unit</th>
                                           <th width="30%">Supplier</th>
                                           <th width="5%"></th>
                                          </tr>
@@ -164,7 +164,6 @@ function batchNo($connect)
                                                </select>
                                           </td>
                                           <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td contenteditable="true" class="item_unit" id="item_unit"></td>
                                           <td contenteditable="true" class="item_supplier"></td>
                                           <td></td>
                                          </tr>
@@ -248,7 +247,6 @@ $(document).ready(function(){
    html_code += "<td contenteditable='true' class='item_date'hidden><?php echo date('Y-m-d') ?></td>";
    html_code += "<td contenteditable='true' class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
-   html_code += "<td contenteditable='true' class='item_unit' id='item_unit'></td>";
    html_code += "<td contenteditable='true' class='item_supplier'></td>";
    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
    html_code += "</tr>";  
@@ -263,7 +261,6 @@ $(document).ready(function(){
  $('#save').click(function(){
   var item_name = [];
   var item_quan = [];
-  var item_unit = [];
   var item_supplier = [];
   var item_batch = [];
   var item_date = [];
@@ -273,9 +270,6 @@ $(document).ready(function(){
   });
   $('.item_quan').each(function(){
    item_quan.push($(this).text());
-  });
-  $('.item_unit').each(function(){
-   item_unit.push($(this).text());
   });
   $('.item_supplier').each(function(){
    item_supplier.push($(this).text());
@@ -309,7 +303,6 @@ $(document).ready(function(){
                     method:"POST",
                     data:{item_name:item_name, 
                         item_quan:item_quan, 
-                        item_unit:item_unit, 
                         item_supplier:item_supplier,
                         item_batch:item_batch,
                         item_date:item_date,
@@ -324,7 +317,6 @@ $(document).ready(function(){
              {
                  $('tr#'+i+'').remove();
              }
-            fetch_item_data();
                 window.location = 'IA_Requestadded.php?batch_no='+ bno;
 
                 return true;

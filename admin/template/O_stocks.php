@@ -2,7 +2,6 @@
 	include 'INCLUDES/userdetails.php';
 	include 'INCLUDES/header.php';
 	include 'INCLUDES/O_sidebar.php';
-    include 'INCLUDES/connect.php';
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Purchase Request </title>
+	<title>Color Admin | Stock Management</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -55,44 +54,52 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Purchased</h1>
+			<h1 class="page-header">Manage Stocks</h1>
 			<!-- end page-header -->
-			<div class="form-group">
-			<a href="IA_addRequest.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Request</a>
-            </div>
+			
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">PURCHASE REQUESTS</h4>
+					<h4 class="panel-title">Spare Parts Inventory</h4>
 				</div>
 				<div class="panel-body">
 						<table id="data-table-buttons" class="table table-striped table-bordered">  
                                 <thead>
-                                </tbody>
                                     <tr>
-                                      <th class="text-nowrap">Purchase No</th>
-                                        <th class="text-nowrap">Batch No</th>
-                                        <th class="text-nowrap">Date Purchased</th>
-                                        <th class="text-nowrap">Purchase Status</th>
-                                        <th class="text-nowrap"></th>
+                                    	<th hidden></th>
+                                        <th class="text-nowrap">SKU</th>
+                                        <th class="text-nowrap">Name</th>
+                                        <th class="text-nowrap">Unit Type</th>
+                                        <th class="text-nowrap">Condition</th>
+                                        <th class="text-nowrap">Quantity</th>
+                                        <th class="text-nowrap">Stock Level</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_purchased RS INNER JOIN r_purchase_status RR ON RR.P_STATUS_ID = RS.PURCHASE_STATUS");
-                                    while ($row=mysqli_fetch_assoc($req)) {
-                                        $PID = $row["PURCHASE_ID"];
-                                        $DATEPUR = $row["DATE_PURCHASED"];
-                                        $BNO = $row["REF_BATCH_NO"];
-                                        $PURSTAT = $row["P_STATUS_NAME"];
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME 
+                                                                    FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
+                                                                    INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
+                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
+                                    while ($row=mysqli_fetch_assoc($stock)) {
+                                        $sid = $row["STOCK_ID"];
+                                        $sku = $row["STOCK_KEY_UNIT"];
+                                        $sname = $row["STOCK_Name"];
+                                        $sut = $row["UNIT_TYPE"];
+                                        $scon = $row["CON_NAME"];
+                                        $squa = $row["STOCK_QUANTITY"];
+                                        $scl = $row["STOCK_CRITICAL_LEVEL"];
                                 
                                 ?>
                                     <tr class="odd gradeX">
-                                      <td><?php echo $PID;?></td>
-                                        <td><?php echo $BNO;?></td>
-                                        <td><?php echo $DATEPUR;?></td>
-                                        <td><?php echo $PURSTAT;?></td>
-                                        <td><a href="O_ReviewPurchased.php?batch_no=<?php echo $BNO; ?>" class="btn btn-sm btn-success">View</a></td>
+                                    	<td hidden><?php echo $sid;?></td>
+                                        <td><?php echo $sku;?></td>
+                                        <td><?php echo $sname;?></td>
+                                        <td><?php echo $sut;?></td>
+                                        <td><?php echo $scon;?></td>
+                                        <td><?php echo $squa;?></td>
+                                        <td><span class="label label-theme m-l-5"><?php echo $scl;?></span></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>
