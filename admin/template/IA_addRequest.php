@@ -4,8 +4,6 @@
     include 'INCLUDES/sidebar.php';
     include 'INCLUDES/connect.php';
 
-$connect = mysqli_connect('localhost', 'root', '','jspims');
-
 function stock_name($connect)
  {
     $output = '';
@@ -19,6 +17,18 @@ function stock_name($connect)
     while($row = mysqli_fetch_assoc($results))
         {
             $output .= '<option value="'.$row['STOCK_ID'].'">'.$row['STOCK_Name'].'</option>';
+        }
+    return $output; 
+}
+function supplier_name($connect)
+ {
+    $output = '';
+
+    $results = mysqli_query($connect, "SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1");
+    
+    while($row = mysqli_fetch_assoc($results))
+        {
+            $output .= '<option value="'.$row['SUP_ID'].'">'.$row['SUP_NAME'].'</option>';
         }
     return $output; 
 }
@@ -39,7 +49,14 @@ function stock_details($connect)
         }
     return $output;
 }
-
+function requested($connect)
+{
+  $output = '';
+  $result = mysqli_query($connect, "SELECT CONCAT(F_NAME, ' ',L_NAME) AS NAME FROM r_users WHERE USERID = 1");
+  $row = mysqli_fetch_assoc($result);
+  $output = $row["NAME"];
+  return $output;
+}
 function batchNo($connect) 
 {
     $output = '';
@@ -142,6 +159,10 @@ function batchNo($connect)
                                         <label>Date</label>
                                         <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
                                     </div>
+                                    <div class="form-group m-r-10">
+                                        <label>Request by:</label>
+                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo requested($connect) ?>">
+                                    </div>
                                 </div>
                                 <div id="item_desc"></div>
                                     <div class="table-responsive">
@@ -157,14 +178,19 @@ function batchNo($connect)
                                          <tr>
                                           <td contenteditable="true" class="item_batch" hidden><?php echo batchNo($connect)?></td>
                                           <td contenteditable="true" class="item_date" hidden><?php echo date('Y-m-d') ?></td>
-                                          <td contenteditable="true" class="item_name">
+                                          <td class="item_name">
                                               <select id="stockname" name="stockname" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
                                                    <?php echo stock_name($connect);?>
                                                </select>
                                           </td>
                                           <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td contenteditable="true" class="item_supplier"></td>
+                                          <td class="item_supplier">
+                                            <select id="item_supplier" name="item_supplier" class="form-control m-r-10">
+                                                   <option value="" selected disabled></option>
+                                                   <?php echo supplier_name($connect);?>
+                                               </select>
+                                          </td>
                                           <td></td>
                                          </tr>
                                         </table>
@@ -243,14 +269,14 @@ $(document).ready(function(){
  $('#add').click(function(){
   count = count + 1;
   var html_code = "<tr id='row"+count+"'>";
-   html_code = "<td contenteditable='true' class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
+   html_code = "<td class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
    html_code += "<td contenteditable='true' class='item_date'hidden><?php echo date('Y-m-d') ?></td>";
-   html_code += "<td contenteditable='true' class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
+   html_code += "<td class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
-   html_code += "<td contenteditable='true' class='item_supplier'></td>";
+   html_code += "<td class='item_supplier'><select id='item_supplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";
    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
    html_code += "</tr>";  
-   $('#crud_table').append(html_code);
+   $('#crud_table').append(html_code); 
  });
   
  $(document).on('click', '.remove', function(){

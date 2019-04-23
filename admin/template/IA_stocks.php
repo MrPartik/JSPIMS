@@ -77,8 +77,10 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME 
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, CONCAT(sp.STOCK_CRITICAL_LEVEL,' ', qu.R_QU_NAME) AS CRITICAL , sup.SUP_NAME  
                                                                     FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_quantity_unit_type qu
+                                                                    ON qu.R_QU_ID = sp.STOCK_QUANTITY_UNIT_TYPE
                                                                     INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
                                                                     INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
                                                                     INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
@@ -89,7 +91,7 @@
                                         $sut = $row["UNIT_TYPE"];
                                         $scon = $row["CON_NAME"];
                                         $squa = $row["STOCK_QUANTITY"];
-                                        $scl = $row["STOCK_CRITICAL_LEVEL"];
+                                        $scl = $row["CRITICAL"];
                                 
                                 ?>
                                     <tr class="odd gradeX">
@@ -99,7 +101,7 @@
                                         <td><?php echo $sut;?></td>
                                         <td><?php echo $scon;?></td>
                                         <td><?php echo $squa;?></td>
-                                        <td><span class="label label-theme m-l-5"><?php echo $scl;?></span></td>
+                                        <td><?php echo $scl;?></span></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>

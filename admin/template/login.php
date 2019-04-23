@@ -33,22 +33,25 @@ $password = $_POST['PASSWORD'];
         {
         $_SESSION['F_NAME'] = $fname;
         $_SESSION['USER_ROLE'] = $role;
+        $_SESSION['USERID'] = $uid;
        /* $insert = "INSERT INTO `audit_trail`( `userid`, `transtype`, `transdatetime`) VALUES ($uid, '$transtype', CURRENT_TIMESTAMP)";
         
         $audittrail = mysqli_query($connect, $insert) or die("Bad query");*/
             
-        header('Location: stocks.php');
+        header('Location: IA_stocks.php');
         }
         //header('Location: admin-dashboard.php');
         elseif ($role == "user") {
         $_SESSION['F_NAME'] = $fname;
         $_SESSION['USER_ROLE'] = $role;
+        $_SESSION['USERID'] = $uid;
 
         header('Location: U_requests.php');
         }
         elseif ($role == "Owner") {
         $_SESSION['F_NAME'] = $fname;
         $_SESSION['USER_ROLE'] = $role;
+        $_SESSION['USERID'] = $uid;
 
         header('Location: O_requests.php');
         }

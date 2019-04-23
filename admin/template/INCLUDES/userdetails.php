@@ -6,6 +6,7 @@
 include('connect.php');
 $fname = $_SESSION['F_NAME'];
 $role = $_SESSION['USER_ROLE'];
+$uid = $_SESSION['USERID'];
 
 if(!isset($_SESSION['F_NAME']))
 {
