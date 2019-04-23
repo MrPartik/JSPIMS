@@ -30,7 +30,7 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<div id="sidebar" class="sidebar" data-disable-slide-animation="true">
+<div id="sidebar" class="sidebar" data-disable-slide-animation="true" style="position: fixed">
 			<!-- begin sidebar scrollbar -->
 			<div data-scrollbar="true" data-height="100%">
 				<!-- begin sidebar user -->
@@ -62,47 +62,59 @@
 					<li class="nav-header">Navigation</li>
 					<li class="has-sub">
 						<a href="index.php">
-							<i class="material-icons">insert_chart</i>
+							<i class="fa fa-chart-line"></i>
 							<span>Dashboard</span>
 						</a>
 					</li>
 					<li class="has-sub">
-						<a href="IA_stocks.php">
-							<i class="material-icons">list</i>
-							<span>Stock Monitoring</span>
-						</a>
-						
-					</li>
-					<li class="has-sub">
 						<a href="javascript:;">
 					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
-							<span>Purchase</span>
+							<i class="fa fa-database"></i>
+							<span>Stock Monitoring</span>
 						</a>
 						<ul class="sub-menu">
-							<li><a href="requestPurchase.php">Purchase</a></li>
-							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
-							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
+							<li><a href="IA_stocks.php">All Stocks</a></li>
+							<li><a href="IA_stocks.php">Critical Stocks</a></li>
+							<li><a href="IA_stocks.php">Out of Stock</a></li>
 						</ul>
 					</li>
 					<li class="has-sub">
 						<a href="javascript:;">
 					        <b class="caret"></b>
-							<i class="material-icons">mail</i>
+							<i class="fa fa-shopping-cart"></i>
+							<span>Request  Purchase</span>
+						</a>
+						<ul class="sub-menu">
+							<li><a href="IA_addRequest.php">Add New Request</a></li>
+							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
+							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
+							<li><a href="requestPurchase.php">All Requests</a></li>
+						</ul>
+					</li>
+					<li class="has-sub">
+						<a href="javascript:;">
+					        <b class="caret"></b>
+							<i class="fa fa-download"></i>
 							<span>Acquisition</span>
+						</a>
+						<ul class="sub-menu">
+							<li class="active"><a href="IA_acquired.php">Acquired</a></li>
+							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
+							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
+							<li><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
+						</ul>
+					</li>
+					<li class="has-sub">
+						<a href="javascript:;">
+					        <b class="caret"></b>
+							<i class="fa fa-upload"></i>
+							<span>Issuance</span>
 						</a>
 						<ul class="sub-menu">
 							<li><a href="IA_acquired.php">Acquired</a></li>
 							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
 							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire from Purchase</a></li>
 						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="">
-							<i class="material-icons">upload</i>
-							<span>Stock Issuance</span>
-						</a>
-						
 					</li>
 
 					<li class="has-sub">

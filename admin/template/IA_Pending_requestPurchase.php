@@ -29,7 +29,7 @@
 	<!-- ================== END BASE CSS STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
-	<script src="../assets/plugins/pace/pace.min.js"></script>
+	<script src="../assets/plugins/pace/pace.min.js"></script> 
 	<!-- ================== END BASE JS ================== -->
 
 	<!-- ================== BEGIN RESPONSIVE TABLE STYLE ================== -->

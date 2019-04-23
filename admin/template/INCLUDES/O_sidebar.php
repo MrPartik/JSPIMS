@@ -33,20 +33,19 @@
 					<li class="nav-header">Navigation</li>
 					<li class="has-sub">
 						<a href="O_stocks.php">
-							<i class="material-icons">insert_chart</i>
+							<i class="fa fa-database"></i>
 							<span>Stocks</span>
 						</a>
 					</li>
-					<li class="nav-header">Navigation</li>
 					<li class="has-sub">
 						<a href="O_requests.php">
-							<i class="material-icons">insert_chart</i>
+							<i class="fa fa-upload"></i>
 							<span>Requests</span>
 						</a>
 					</li>
 					<li class="has-sub">
 						<a href="O_purchased.php">
-							<i class="material-icons">insert_chart</i>
+							<i class="fa fa-shopping-cart"></i>
 							<span>Purchased</span>
 						</a>
 					</li>

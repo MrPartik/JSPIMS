@@ -6,7 +6,7 @@
 <html lang="en">
 
 <!-- begin #header -->
-		<div id="header" class="header navbar-default">
+		<div id="header" class="header navbar-default" style="position: fixed">
 			<!-- begin navbar-header -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed navbar-toggle-left" data-click="sidebar-minify">

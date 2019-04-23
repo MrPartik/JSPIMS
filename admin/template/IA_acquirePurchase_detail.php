@@ -341,5 +341,12 @@ else
 });
         });
 </script>
+<script>
+        $(document).ready(function() {
+            App.init();
+            TableManageResponsive.init();
+            TableManageButtons.init();
+        });
+    </script>
 </body>
 </html>
