@@ -127,7 +127,7 @@ function remarks($connect)
         <div id="content" class="content">
             <!-- begin tab-pane -->
             <div class="panel panel-inverse">
-
+            <br/><br/><br/>
                 <section class="panel">
                     <header class="panel-heading" style="background-color: gray; color: white">
                         Request Details
@@ -240,6 +240,13 @@ function remarks($connect)
                 });
                 
              }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            App.init();
+            TableManageResponsive.init();
+            TableManageButtons.init();
         });
     </script>
 </body>

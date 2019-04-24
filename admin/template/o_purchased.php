@@ -39,7 +39,7 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
 	<!-- begin #page-loader -->
 	<!-- end #page-loader -->
 	

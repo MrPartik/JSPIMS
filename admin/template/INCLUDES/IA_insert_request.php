@@ -20,7 +20,7 @@ if(isset($_POST["item_name"]))
   if($item_name_clean != '' && $item_quan_clean != '' && $item_supplier_clean != '')
   {
    $batch_req = '
-    INSERT INTO `t_spare_requisition_summary` (`BATCH_NO`, `DATE_REQUESTED`, `DATE_REVISED`, `DATE_APPROVED`, `DATE_RELEASED`, `STATUS_REQ`, `REMARKS`) VALUES ("'.$item_batch_clean.'", "'.$item_date_clean.'", NULL, NULL, NULL, 1, 4)
+    INSERT INTO `t_spare_requisition_summary` (`BATCH_NO`, `DATE_REQUESTED`, `DATE_REVISED`, `DATE_APPROVED`, `DATE_RELEASED`, `STATUS_REQ`, `REMARKS`, `REQUESTED_BY`) VALUES ("'.$item_batch_clean.'", "'.$item_date_clean.'", NULL, NULL, NULL, 1, 4, 1)
     ';
    $query = '
    INSERT INTO `t_spare_requisition_old_stock` (`REF_STOCK_ID`, `QUANTITY`,`STOCK_SUPPLIER`, `REF_BATCH_NO`) VALUES ("'.$item_name_clean.'", "'.$item_quan_clean.'","'.$item_supplier_clean.'","'.$item_batch_clean.'") 

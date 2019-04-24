@@ -96,7 +96,7 @@ function batchNo($connect)
     <link href="../assets/css/default/style-responsive.min.css" rel="stylesheet" />
     <link href="../assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
-    
+     
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="../assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
@@ -115,7 +115,7 @@ function batchNo($connect)
 
     <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>   
         <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin breadcrumb -->
@@ -297,8 +297,8 @@ $(document).ready(function(){
   $('.item_quan').each(function(){
    item_quan.push($(this).text());
   });
-  $('.item_supplier').each(function(){
-   item_supplier.push($(this).text());
+  $('.item_supplier option:selected').each(function(){
+   item_supplier.push($(this).val());
   });
   $('.item_batch').each(function(){
    item_batch.push($(this).text());

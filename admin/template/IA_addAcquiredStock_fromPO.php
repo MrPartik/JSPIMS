@@ -38,7 +38,7 @@
   <!-- ================== END RESPONSIVE TABLE STYLE ================== -->
   <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
   <!-- begin #page-loader -->
   <!-- end #page-loader -->
   
@@ -56,9 +56,6 @@
       <!-- begin page-header -->
       <h1 class="page-header">Acquire from Purchased</h1>
       <!-- end page-header -->
-      <div class="form-group">
-      <a href="IA_addRequest.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Request</a>
-            </div>
       <!-- begin panel -->
       <div class="panel panel-inverse">
         <div class="panel-heading">
@@ -78,7 +75,7 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_purchased RS INNER JOIN r_purchase_status RR ON RR.P_STATUS_ID = RS.PURCHASE_STATUS WHERE PURCHASE_STATUS = '3'");
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_purchased RS INNER JOIN r_purchase_status RR ON RR.P_STATUS_ID = RS.PURCHASE_STATUS WHERE PURCHASE_STATUS = '5'");
                                     while ($row=mysqli_fetch_assoc($req)) {
                                         $PID = $row["PURCHASE_ID"];
                                         $DATEPUR = $row["DATE_PURCHASED"];

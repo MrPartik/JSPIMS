@@ -111,9 +111,9 @@
 							<span>Issuance</span>
 						</a>
 						<ul class="sub-menu">
-							<li><a href="IA_acquired.php">Acquired</a></li>
-							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
-							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire from Purchase</a></li>
+							<li><a href="IA_acquired.php">Issued Requests</a></li>
+							<li><a href="IA_addAcquiredStock.php">Pending Requests</a></li>
+							<li><a href="IA_addAcquiredStock_fromPO.php">All Requests</a></li>
 						</ul>
 					</li>
 

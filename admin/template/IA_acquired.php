@@ -38,7 +38,7 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
 	<!-- begin #page-loader -->
 	<!-- end #page-loader -->
 	
@@ -54,7 +54,7 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Acquired Stocks</h1>
+			<h1 class="page-header">Issued Requests</h1>
 			<!-- end page-header -->
             <div class="form-group">
 			<a href="IA_addAcquiredStock.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Acquisition</a>
@@ -62,17 +62,17 @@
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">Spare Parts Inventory</h4>
+					<h4 class="panel-title">Issued Requests</h4>
 				</div>
 				<div class="panel-body">
 						<table id="data-table-buttons" class="table table-striped table-bordered">  
                                 <thead>
                                     <tr>
                                     	<th style="display: none;" hidden></th>
-                                        <th class="text-nowrap">Date</th>
-                                        <th class="text-nowrap">SKU</th>
-                                        <th class="text-nowrap">Quantity</th>
-                                        <th class="text-nowrap">Supplier</th>
+                                        <th class="text-nowrap">Request No.</th>
+                                        <th class="text-nowrap">Date Requested</th>
+                                        <th class="text-nowrap">Status</th>
+                                        <th class="text-nowrap">Date Issued</th>
                                         <th class="text-nowrap">Method of Acquisition</th>
                                     </tr>
                                 </thead>

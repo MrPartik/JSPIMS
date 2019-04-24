@@ -35,24 +35,29 @@ function show_requests($connect)
 {   
     $bno = $_GET['batch_no'];
     $output = '';
-    $results = mysqli_query($connect, "SELECT * FROM t_spare_requisition AS T INNER JOIN t_spare_requisition_summary TS ON T.REF_BATCH_NO = TS.BATCH_NO INNER JOIN t_spare_stocks ss ON ss.STOCK_ID = t.REF_SKU INNER JOIN r_supplier AS S ON S.SUP_ID = T.STOCK_SUPPLIER WHERE T.REF_BATCH_NO = $bno");
+    $results = mysqli_query($connect, "SELECT DISTINCT `STOCK_SUPPLIER`, SUP_NAME, REF_BATCH_NO FROM t_spare_requisition_old_stock INNER JOIN r_supplier ON r_supplier.SUP_ID = t_spare_requisition_old_stock.STOCK_SUPPLIER WHERE REF_BATCH_NO = $bno");
+    
     while($row = mysqli_fetch_assoc($results))
         {
+           
             $output .= '<div class="form-group col-md-3">';
-            $output .= '<label>Supplier</label><input type="text" class="form-control" disabled="true" value="'.$row['SUP_NAME'].'"></div>';
+            $output .= '<label>Supplier</label><input type="text" class="form-control" disabled="true" value="'.$row['SUP_NAME'].'"></div>'; 
+
             $output .= '<div class="row">';
             $output .= '<div class="table-responsive">';
             $output .= '<table class="table table-bordered" id="crud_table"><tr>';
-            $output .= '<th class="text-nowrap">SKU</th>';
-            $output .= '<th class="text-nowrap">Item Name</th>';
-            $output .= '<th class="text-nowrap">Quantity</th>';
-            $output .= '<th class="text-nowrap">Unit</th>';
-            $output .= '<th class="text-nowrap">Amount</th>';
-            $output .= '<tr><td class="item_id">'.$row['STOCK_ID'].'</td>';
-            $output .= '<td class="item_name">'.$row['STOCK_NAME'].'</td>';
-            $output .= '<td class="item_quan" type="number">'.$row['QUANTITY'].'</td>';
-            $output .= '<td class="item_unit" id="item_unit">'.$row['STOCK_UNIT_TYPE'].'</td>';
+            $output .= '<th width="30%">Item Name</th>';
+            $output .= '<th width="5%">Quantity</th>';
+            $output .= '<th width="10%">Unit</th>';
+            $output .= '<th width="5%">Amount</th>';
+            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
+            while($row1 = mysqli_fetch_assoc($results1))
+            {
+            $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';
+            $output .= '<td class="item_quan" type="number">'.$row1['QUANTITY'].'</td>';
+            $output .= '<td class="item_unit" id="item_unit">'.$row1['STOCK_UNIT_TYPE'].'</td>';
             $output .= '<td class="item_unit" id="item_unit">10,000</td></tr>';
+            } 
             $output .= '</table></div>';
             $output .= '</div>';   
         }                     
@@ -130,7 +135,7 @@ function purchase_details($connect)
 
     <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
         <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin tab-pane -->
@@ -178,9 +183,6 @@ function purchase_details($connect)
                                     <button type="button" name="AA" id="AA" class="btn btn-success">Acquire Stocks</button>
                                     <a type="button" href="IA_Pending_requestPurchase.php" name="return" id="return" class="btn btn-default">Return to Purchased Stock</a>
                                 </div>
-                        </div>
-                        <div id="hide" name="hide">
-                            hi
                         </div>
                         <div class="tab-pane fade" id="PurDetails">
                             <section class="panel">
