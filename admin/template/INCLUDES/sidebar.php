@@ -116,11 +116,16 @@
 							<li><a href="IA_addAcquiredStock_fromPO.php">All Requests</a></li>
 						</ul>
 					</li>
-
+					<li class="has-sub">
+						<a href="index.php">
+							<i class="fa fa-minus"></i>
+							<span>Dispatch or Dispose</span>
+						</a>
+					</li>
 					<li class="has-sub">
 						<a href="javascript:;">
 					        <b class="caret"></b>
-						    <i class="material-icons">report</i>
+						    <i class="fa fa-file"></i>
 						    <span>Reports <span class="label label-theme m-l-5">NEW</span></span> 
 						</a>
 						<ul class="sub-menu">

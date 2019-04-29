@@ -327,12 +327,14 @@ $(document).ready(function(){
             $.ajax({
                     url:"INCLUDES/IA_insert_request.php",
                     method:"POST",
-                    data:{item_name:item_name, 
+                    data:{
+                        item_name:item_name, 
                         item_quan:item_quan, 
                         item_supplier:item_supplier,
                         item_batch:item_batch,
-                        item_date:item_date,
-                        bno:bno},
+                        item_date:item_date, 
+                        bno:bno
+                    },
             success:function(data)
             { 
             swal("Requested! ", "Page will be reloaded.", "success");

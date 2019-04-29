@@ -2,7 +2,7 @@
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
     include 'INCLUDES/sidebar.php';
-    include 'INCLUDES/connect.php';
+    include 'INCLUDES/connect.php'; 
 
 if (isset($_GET['batch_no'])) 
     {

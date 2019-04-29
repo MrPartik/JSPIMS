@@ -72,13 +72,15 @@
                                         <th class="text-nowrap">Unit Type</th>
                                         <th class="text-nowrap">Condition</th>
                                         <th class="text-nowrap">Quantity</th>
-                                        <th class="text-nowrap">Stock Level</th>
+                                        <th class="text-nowrap">Critical Level</th>
+                                        <th class="text-nowrap">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, CONCAT(sp.STOCK_CRITICAL_LEVEL,' ', qu.R_QU_NAME) AS CRITICAL , sup.SUP_NAME  
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, CONCAT(sp.STOCK_CRITICAL_LEVEL,' ', qu.R_QU_NAME,' per ', sl.SL_NAME) AS CRITICAL , sup.SUP_NAME  
                                                                     FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_shelf_life sl ON sl.SL_ID = sp.STOCK_SHELF_LIFE 
                                                                     INNER JOIN r_quantity_unit_type qu
                                                                     ON qu.R_QU_ID = sp.STOCK_QUANTITY_UNIT_TYPE
                                                                     INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
@@ -101,7 +103,8 @@
                                         <td><?php echo $sut;?></td>
                                         <td><?php echo $scon;?></td>
                                         <td><?php echo $squa;?></td>
-                                        <td><?php echo $scl;?></span></td>
+                                        <td><?php echo $scl;?></td>
+                                        <td><a href="IA_stocks_details.php" class="btn btn-sml btn-primary"><i class="fa fa-eye"></i></a></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>
