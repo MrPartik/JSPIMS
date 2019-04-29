@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Stock Management</title>
+	<title>Color Admin | Purchase Request </title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -38,7 +38,7 @@
 	<!-- ================== END RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
 	<!-- begin #page-loader -->
 	<!-- end #page-loader -->
 	
@@ -54,73 +54,44 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Manage Stocks</h1>
+			<h1 class="page-header">All Requests</h1>
 			<!-- end page-header -->
-			
+			<div class="form-group">
+			<a href="IA_addRequest.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Request</a>
+            </div>
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">Spare Parts Inventory</h4>
+					<h4 class="panel-title">PURCHASE REQUESTS</h4>
 				</div>
 				<div class="panel-body">
-						<table id="data-table-buttons" class="table">  
+						<table id="data-table-buttons" class="table table-striped table-bordered">  
                                 <thead>
+                                </tbody>
                                     <tr>
-                                    	<th hidden></th>
-                                        <th class="text-nowrap">Stock Keeping Unit</th>
-                                        <th class="text-nowrap">Name</th>
-                                        <th class="text-nowrap">Unit Type</th>
-                                        <th class="text-nowrap">Condition</th>
-                                        <th class="text-nowrap">Quantity</th>
-                                        <th class="text-nowrap">Critical Level</th>
-                                        <th width="15%">Action</th>
+                                    	<th class="text-nowrap">Batch No</th>
+                                        <th class="text-nowrap">Date Requested</th>
+                                        <th class="text-nowrap">Date Approved</th>
+                                        <th class="text-nowrap">Remarks</th>
+                                        <th class="text-nowrap"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, CONCAT(sp.STOCK_CRITICAL_LEVEL,' ', qu.R_QU_NAME,' per ', sl.SL_NAME) AS CRITICAL , sup.SUP_NAME, sp.STOCK_CRITICAL_LEVEL  
-                                                                    FROM t_spare_stocks AS sp 
-                                                                    INNER JOIN r_shelf_life sl ON sl.SL_ID = sp.STOCK_SHELF_LIFE 
-                                                                    INNER JOIN r_quantity_unit_type qu
-                                                                    ON qu.R_QU_ID = sp.STOCK_QUANTITY_UNIT_TYPE
-                                                                    INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
-                                                                    INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
-                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
-                                    while ($row=mysqli_fetch_assoc($stock)) {
-                                        $sid = $row["STOCK_ID"];
-                                        $sku = $row["STOCK_KEY_UNIT"];
-                                        $sname = $row["STOCK_Name"];
-                                        $sut = $row["UNIT_TYPE"];
-                                        $scon = $row["CON_NAME"];
-                                        $squa = $row["STOCK_QUANTITY"];
-                                        $scl = $row["CRITICAL"];
-                                        $crt = $row["STOCK_CRITICAL_LEVEL"];
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_status RR ON RR.STATUS_ID = RS.STATUS_REQ");
+                                    while ($row=mysqli_fetch_assoc($req)) {
+                                        $bno = $row["BATCH_NO"];
+                                        $datereq = $row["DATE_REQUESTED"];
+                                        $daterev = $row["DATE_APPROVED"];
+                                        $remarks = $row["STATUS_VAL"];
                                 
-                                ?><?php 
-                                      if ($squa <= $crt){
-                                    	echo "<tr class='danger'>
-                                    	<td hidden>".$sid."</td>
-                                        <td>".$sku."</td>
-                                        <td>".$sname."</td>
-                                        <td>".$sut."</td>
-                                        <td>".$scon."</td>
-                                        <td><span class='label label-danger'> ".$squa." </span></td>
-                                        <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
-                                        		}
-                                      else {
-                                        echo "<tr class='default'>
-                                    	<td hidden>".$sid."</td>
-                                        <td>".$sku."</td>
-                                        <td>".$sname."</td>
-                                        <td>".$sut."</td>
-                                        <td>".$scon."</td>
-                                        <td><span class='label label-warning'> ".$squa." </span></td>
-                                        <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
-                                        	}
-                                        ?>
-                                        
+                                ?>
+                                    <tr class="odd gradeX">
+                                    	<td><?php echo $bno;?></td>
+                                        <td><?php echo $datereq;?></td>
+                                        <td><?php echo $daterev;?></td>
+                                        <td><?php echo $remarks;?></td>
+                                        <td><a href="IA_Requestapproved.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>

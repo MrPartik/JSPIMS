@@ -73,7 +73,7 @@
                                         <th class="text-nowrap">Condition</th>
                                         <th class="text-nowrap">Quantity</th>
                                         <th class="text-nowrap">Critical Level</th>
-                                        <th width="15%">Action</th>
+                                        <th class="text-nowrap">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +85,7 @@
                                                                     ON qu.R_QU_ID = sp.STOCK_QUANTITY_UNIT_TYPE
                                                                     INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
                                                                     INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
-                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
+                                                                    INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID WHERE STOCK_KEY_UNIT = 'SP-A-0001'");
                                     while ($row=mysqli_fetch_assoc($stock)) {
                                         $sid = $row["STOCK_ID"];
                                         $sku = $row["STOCK_KEY_UNIT"];
@@ -106,7 +106,7 @@
                                         <td>".$scon."</td>
                                         <td><span class='label label-danger'> ".$squa." </span></td>
                                         <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a></td>";
                                         		}
                                       else {
                                         echo "<tr class='default'>
@@ -117,7 +117,7 @@
                                         <td>".$scon."</td>
                                         <td><span class='label label-warning'> ".$squa." </span></td>
                                         <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a></td>";
                                         	}
                                         ?>
                                         

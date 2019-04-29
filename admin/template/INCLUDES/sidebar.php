@@ -74,8 +74,8 @@
 						</a>
 						<ul class="sub-menu">
 							<li><a href="IA_stocks.php">All Stocks</a></li>
-							<li><a href="IA_stocks.php">Critical Stocks</a></li>
-							<li><a href="IA_stocks.php">Out of Stock</a></li>
+							<li><a href="IA_stocks_critical.php">Critical Stocks</a></li>
+							<li><a href="IA_out_of_stocks.php">Out of Stock</a></li>
 						</ul>
 					</li>
 					<li class="has-sub">
@@ -88,7 +88,7 @@
 							<li><a href="IA_addRequest.php">Add New Request</a></li>
 							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
 							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
-							<li><a href="requestPurchase.php">All Requests</a></li>
+							<li><a href="IA_allRequests.php">All Requests</a></li>
 						</ul>
 					</li>
 					<li class="has-sub">

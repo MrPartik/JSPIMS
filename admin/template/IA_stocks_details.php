@@ -22,6 +22,9 @@ Fanbelt (Plain) PKB/SP B71"></div>';
             $output .= '<div class="form-group m-r-10">';
             $output .= '<label>Stock Quantity</label>';
             $output .= '<input type="text" id="remarkss" name="remarkss" class="form-control" value="10"></div>';
+            $output .= '<div class="form-group m-r-10">';
+            $output .= '<label>Stock Level Status</label>';
+            $output .= '<input type="text" id="remarkss" name="remarkss" class="form-control" value="CRITICAL" style="background-color:red"></div>';
         
     return $output;
 }
@@ -96,6 +99,7 @@ Fanbelt (Plain) PKB/SP B71"></div>';
                                     <tr>
                                         <th hidden></th>
                                         <th class="text-nowrap">AQ No.</th>
+                                        <th class="text-nowrap">Incharge of Acquisition</th>
                                         <th class="text-nowrap">Date Acquired</th>
                                         <th class="text-nowrap">Mode of Acquisition</th>
                                         <th class="text-nowrap">Supplier</th>
@@ -127,6 +131,7 @@ Fanbelt (Plain) PKB/SP B71"></div>';
                                     <tr class="odd gradeX">
                                         <td hidden></td>
                                         <td>03</td>
+                                        <td>Cecilia Violago</td>
                                         <td>2019-04-12</td>
                                         <td>Purchase Order</td>
                                         <td>Jecara</td>
@@ -135,6 +140,7 @@ Fanbelt (Plain) PKB/SP B71"></div>';
                                     <tr class="odd gradeX">
                                         <td hidden></td>
                                         <td>02</td>
+                                        <td>Cecilia Violago</td>
                                         <td>2019-04-10</td>
                                         <td>Purchase Order</td>
                                         <td>Jecara</td>
@@ -143,6 +149,7 @@ Fanbelt (Plain) PKB/SP B71"></div>';
                                     <tr class="odd gradeX">
                                         <td hidden></td>
                                         <td>01</td>
+                                        <td>Cecilia Violago</td>
                                         <td>2019-04-05</td>
                                         <td>Purchase Order</td>
                                         <td>Miguel</td>

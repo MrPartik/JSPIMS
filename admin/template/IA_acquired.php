@@ -54,7 +54,7 @@
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Issued Requests</h1>
+			<h1 class="page-header">Acquired Stocks</h1>
 			<!-- end page-header -->
             <div class="form-group">
 			<a href="IA_addAcquiredStock.php" type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbspAdd New Acquisition</a>
@@ -69,10 +69,10 @@
                                 <thead>
                                     <tr>
                                     	<th style="display: none;" hidden></th>
-                                        <th class="text-nowrap">Request No.</th>
-                                        <th class="text-nowrap">Date Requested</th>
-                                        <th class="text-nowrap">Status</th>
-                                        <th class="text-nowrap">Date Issued</th>
+                                        <th class="text-nowrap">Acquisition No.</th>
+                                        <th class="text-nowrap">Date Purchased</th>
+                                        <th class="text-nowrap">Accept Status</th>
+                                        <th class="text-nowrap">Date Acquired</th>
                                         <th class="text-nowrap">Method of Acquisition</th>
                                     </tr>
                                 </thead>

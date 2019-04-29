@@ -146,7 +146,7 @@ function batchNo($connect)
 
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
-                                    Purchase Form
+                                    Purchase Form for Old Stocks
                                 <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
                                 </header>
                                 <div class="panel-body" id="r_input">
@@ -199,14 +199,69 @@ function batchNo($connect)
                                          <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
                                         </div>
                                         <div align="center">
+                                         <button type="button" name="save" id="save" class="btn btn-grey">Clear</button>
                                          <button type="button" name="save" id="save" class="btn btn-info">Save</button>
                                         </div>
                                     </div>
+                                </section>
+                            </div>
+                        <div class="panel panel-inverse fade tab-pane" id="AqPO">
+                            <section class="panel">
+                                <header class="panel-heading" style="background-color: gray; color: white">
+                                    Purchase Form for New Stocks
+                                <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
+                                </header>
+                                <div class="panel-body" id="r_input">
+                                <div class="row" style="margin-left:5px">
+                                    <div class="form-group m-r-10">
+                                        <label>Request No.</label>
+                                        <input type="text" id="bno" name="bno" class="form-control" disabled="true" value="<?php echo batchNo($connect);?>">
+                                    </div>
+                                    <div class="form-group m-r-10">
+                                        <label>Date</label>
+                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
+                                    </div>
+                                    <div class="form-group m-r-10">
+                                        <label>Request by:</label>
+                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo requested($connect) ?>">
+                                    </div>
                                 </div>
-                            </section>
-                        </div>
-                        <div class="tab-pane fade" id="AqPO">
-                            Hello
+                                <div id="item_desc"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="crud_table">
+                                         <tr>
+                                          <th class="text-nowrap">Item Name</th>
+                                          <th class="text-nowrap">Model</th>
+                                          <th class="text-nowrap">Brand</th>
+                                          <th class="text-nowrap">Size</th>
+                                          <th class="text-nowrap">Unit Type</th>
+                                          <th class="text-nowrap">Condition</th>
+                                          <th class="text-nowrap">Quantity</th>
+                                          <th class="text-nowrap">Supplier</th>
+                                          <th width="5%"></th>
+                                         </tr>
+                                         <tr>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_name"></td>
+                                          <td contenteditable="true" class="item_quan" type="number"></td>
+                                          <td class="item_supplier"></td>
+                                          <td></td>
+                                         </tr>
+                                        </table>
+                                      </div>
+                                        <div align="right">
+                                         <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
+                                        </div>
+                                        <div align="center">
+                                         <button type="button" name="save" id="save" class="btn btn-grey">Clear</button>
+                                         <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+                                        </div>
+                                    </div>
+                                </section>
                         </div>
                     </div>
                 </div>
