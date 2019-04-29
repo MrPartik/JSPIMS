@@ -248,7 +248,7 @@ function batchNo($connect)
                                           <td contenteditable="true" class="item_name"></td>
                                           <td contenteditable="true" class="item_name"></td>
                                           <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td class="item_supplier"></td>
+                                          <td contenteditable="true" class="item_supplier"></td>
                                           <td></td>
                                          </tr>
                                         </table>

@@ -78,14 +78,14 @@
 							<li><a href="IA_out_of_stocks.php">Out of Stock</a></li>
 						</ul>
 					</li>
-					<li class="has-sub">
+					<li class="has-sub active">
 						<a href="javascript:;">
 					        <b class="caret"></b>
 							<i class="fa fa-shopping-cart"></i>
 							<span>Request  Purchase</span>
 						</a>
 						<ul class="sub-menu">
-							<li><a href="IA_addRequest.php">Add New Request</a></li>
+							<li class="active"><a href="IA_addRequest.php">Add New Request</a></li>
 							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
 							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
 							<li><a href="IA_allRequests.php">All Requests</a></li>

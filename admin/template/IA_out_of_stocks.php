@@ -106,7 +106,7 @@
                                         <td>".$scon."</td>
                                         <td><span class='label label-danger'> ".$squa." </span></td>
                                         <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a></td>";
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></td>";
                                         		}
                                       else {
                                         echo "<tr class='default'>
@@ -117,7 +117,7 @@
                                         <td>".$scon."</td>
                                         <td><span class='label label-warning'> ".$squa." </span></td>
                                         <td>".$scl."</td>
-                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a></td>";
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></td>";
                                         	}
                                         ?>
                                         

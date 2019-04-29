@@ -65,7 +65,7 @@
 					<h4 class="panel-title">PURCHASE REQUESTS</h4>
 				</div>
 				<div class="panel-body">
-						<table id="data-table-buttons" class="table table-striped table-bordered">  
+						<table id="data-table-buttons" class="table">  
                                 <thead>
                                 </tbody>
                                     <tr>
@@ -84,14 +84,27 @@
                                         $datereq = $row["DATE_REQUESTED"];
                                         $daterev = $row["DATE_REVISED"];
                                         $remarks = $row["REMARKS_VAL"];
+                                        $remarks1 = $row["REMARKS"];
                                 
                                 ?>
-                                    <tr class="odd gradeX">
-                                    	<td><?php echo $bno;?></td>
-                                        <td><?php echo $datereq;?></td>
-                                        <td><?php echo $daterev;?></td>
-                                        <td><?php echo $remarks;?></td>
-                                        <td><a href="IA_Requestadded.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a></td>
+                                <?php 
+                                	if ($remarks1 == 3) {
+                                    echo '<tr class="danger">
+                                    	<td>'.$bno.'</td>
+                                        <td>'.$datereq.'</td>
+                                        <td>'.$daterev.'</td>
+                                        <td>'.$remarks.'</td>
+                                        <td><a href="IA_Requestadded.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
+                                        }
+                                    else {
+                                    echo '<tr class="default">
+                                    	<td>'.$bno.'</td>
+                                        <td>'.$datereq.'</td>
+                                        <td>'.$daterev.'</td>
+                                        <td>'.$remarks.'</td>
+                                        <td><a href="IA_Requestadded.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
+                                        }
+                                ?>
                                 <?php } ?>
                                     </tr>
                                 </tbody>
