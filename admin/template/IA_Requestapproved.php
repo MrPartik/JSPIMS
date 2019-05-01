@@ -142,22 +142,22 @@ function purchase_details($connect)
                 <!-- begin col-6 -->
                 <div class="col-12">
                     <!-- begin nav-tabs -->
-                    <ul class="nav nav-tabs" style="background-color:black;">
+                    <ul class="nav nav-tabs">
                         <li class="nav-items">
-                            <a href="#ReqDetails" data-toggle="tab" class="nav-link active" style="color:white">
+                            <a href="#ReqDetails" data-toggle="tab" class="nav-link active">
                                 <span class="d-sm-none">Request Details</span>
                                 <span class="d-sm-block d-none">Request Details</span>
                             </a>
                         </li>
                         <li class="nav-items">
-                            <a href="#PurDetails" data-toggle="tab" class="nav-link" style="color:white">
+                            <a href="#PurDetails" data-toggle="tab" class="nav-link">
                                 <span class="d-sm-none">Purchase Status</span>
                                 <span class="d-sm-block d-none">Purchase Status</span>
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="panel tab-pane fade active show" id="ReqDetails">
+                        <div class="panel panel-inverse tab-pane fade active show" id="ReqDetails">
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
                                     Request Details
@@ -179,7 +179,7 @@ function purchase_details($connect)
                                 </div>
                             </section>
                         </div>
-                        <div class="tab-pane fade" id="PurDetails">
+                        <div class="tab-pane panel panel-inverse fade" id="PurDetails">
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
                                     Purchase Details
