@@ -152,16 +152,16 @@ function batchNo($connect)
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="crud_table">
                                          <tr>
-                                          <th width="6%" >b_no</th>
-                                          <th width="6%" >date</th>
+                                          <th width="6%" hidden>b_no</th>
+                                          <th width="6%" hidden>date</th>
                                           <th width="30%">Item Name</th>
                                           <th width="5%">Quantity</th>
                                           <th width="30%">Supplier</th>
                                           <th width="5%"></th>
                                          </tr>
                                          <tr>
-                                          <td contenteditable="true" class="item_batch" ><?php echo batchNo($connect)?></td>
-                                          <td contenteditable="true" class="item_date" ><?php echo date('Y-m-d') ?></td>
+                                          <td contenteditable="true" class="item_batch" hidden><?php echo batchNo($connect)?></td>
+                                          <td contenteditable="true" class="item_date" hidden><?php echo date('Y-m-d') ?></td>
                                           <td class="item_name">
                                               <select id="stockname" name="stockname" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
@@ -308,8 +308,8 @@ $(document).ready(function(){
  $('#add').click(function(){
   count = count + 1;
   var html_code = "<tr id='row"+count+"'>";
-   html_code += "<td contenteditable='true' class='item_batch'><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
-   html_code += "<td contenteditable='true' class='item_date'><?php echo date('Y-m-d') ?></td>";
+   html_code += "<td class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
+   html_code += "<td class='item_date' hidden><?php echo date('Y-m-d') ?></td>";
    html_code += "<td class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
    html_code += "<td class='item_supplier'><select id='itemsupplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";

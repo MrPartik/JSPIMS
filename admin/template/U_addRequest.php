@@ -2,8 +2,8 @@
 	include 'INCLUDES/userdetails.php';
 	include 'INCLUDES/header.php';
 	include 'INCLUDES/U_sidebar.php';
+  include 'INCLUDES/connect.php'; 
 
-$connect = mysqli_connect('localhost', 'root', '','jspims');
 
 function stock_name($connect)
  {
@@ -43,6 +43,14 @@ function batchNo($connect)
     $new_id = $sum_id + 1;
     $output .= $new_id;
     return $output;
+}
+function requested($connect)
+{
+  $output = '';
+  $result = mysqli_query($connect, "SELECT CONCAT(F_NAME, ' ',L_NAME) AS NAME FROM r_users WHERE USERID = 2");
+  $row = mysqli_fetch_assoc($result);
+  $output = $row["NAME"];
+  return $output;
 }
 ?>
 
@@ -85,6 +93,7 @@ function batchNo($connect)
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
 <body><br/><br/><br/>
 		<!-- begin #content -->
@@ -124,35 +133,42 @@ function batchNo($connect)
                                 <div class="row" style="margin-left:5px">
                                     <div class="form-group m-r-10">
                                         <label>Request No.</label>
-                                        <input type="text" class="form-control" disabled="true">
+                                        <input type="text" id="bno" name="bno" class="form-control" disabled="true" value="<?php echo batchNo($connect);?>">
                                     </div>
                                     <div class="form-group m-r-10">
                                         <label>Date</label>
-                                        <input type="text" class="form-control" disabled="true">
+                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
+                                    </div>
+                                    <div class="form-group m-r-10">
+                                        <label>Request by:</label>
+                                        <input type="text" id="reqby" name="reqby" class="form-control" disabled="true" value="<?php echo requested($connect) ?>">
                                     </div>
                                 </div>
+                                    <div class="col-md-14">
+                                          <div style="padding: 1px; margin-bottom: 20px; background-color: #757575;"></div>
+                                        </div>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="crud_table">
                                          <tr>
-                                          <th width="6%" >b_no</th>
-                                          <th width="6%" >date</th>
+                                          <th width="6%" hidden>b_no</th>
+                                          <th width="6%" hidden>date</th>
                                           <th width="30%">Item Name</th>
                                           <th width="10%">Quantity</th>
                                           <th width="45%">Supplier</th>
                                           <th width="5%"></th>
                                          </tr>
                                          <tr>
-                                          <td contenteditable="true" class="item_batch" ><?php echo batchNo($connect)?></td>
-                                          <td contenteditable="true" class="item_date" ><?php echo date('Y-m-d') ?></td>
+                                          <td contenteditable="true" class="item_batch" hidden><?php echo batchNo($connect)?></td>
+                                          <td contenteditable="true" class="item_date" hidden><?php echo date('Y-m-d') ?></td>
                                           <td class="item_name">
-                                              <select id="stockname" name="stockname" class="form-control m-r-10">
+                                              <select id="item_name" name="item_name" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
                                                    <?php echo stock_name($connect);?>
                                                </select>
                                           </td>
                                           <td contenteditable="true" class="item_quan"></td>
-                                          <td contenteditable="true" class="item_supplier">
-                                            <select id="itemsupplier" name="itemsupplier" class="form-control m-r-10">
+                                          <td class="item_supplier">
+                                            <select id="item_supplier" name="item_supplier" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
                                                    <?php echo supplier_name($connect);?>
                                                </select>
@@ -163,8 +179,17 @@ function batchNo($connect)
                                         <div align="right">
                                          <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
                                         </div>
-                                        <div align="center">
-                                         <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                          <div style="padding: 1px; margin-bottom: 10px; background-color: #757575;"></div>
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                          <textarea id="reason" name="reason" class="form-control" rows="2" placeholder="Reason for issuance..."></textarea>
+                                        </div>
+                                        <div>
+                                         <button type="button" name="save" id="save" class="btn btn-success">Save</button>
+                                         <button type="button" name="cancel" id="cancel" class="btn btn-grey">Cancel</button>
                                         </div>
                                         <br />
                                        </div>
@@ -212,17 +237,18 @@ function batchNo($connect)
     <script src="../assets/js/theme/default.min.js"></script>
     <script src="../assets/js/apps.min.js"></script>
 
+    <script src="../assets/js/sweetalert/sweetalert.min.js"></script>
 <script>
 $(document).ready(function(){
  var count = 1;
  $('#add').click(function(){
   count = count + 1;
   var html_code = "<tr id='row"+count+"'>";
-   html_code += "<td contenteditable='true' class='item_batch'><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
-   html_code += "<td contenteditable='true' class='item_date'><?php echo date('Y-m-d') ?></td>";
-   html_code += "<td contenteditable='true' class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
+   html_code += "<td class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
+   html_code += "<td class='item_date' hidden><?php echo date('Y-m-d') ?></td>";
+   html_code += "<td class='item_name'><select id='item_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
-   html_code += "<td contenteditable='true' class='item_supplier'><select id='supplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $supsql='SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1';$results = mysqli_query($connect, $supsql) or die('Bad Query: $sql');while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$sup = $row['SUP_NAME'];?><option value='<?php echo '$supid'; ?>''><?php echo "$sup"; ?></option><?php } ?></select></td>";
+   html_code += "<td class='item_supplier'><select id='item_supplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID']; $supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";
    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
    html_code += "</tr>";  
    $('#crud_table').append(html_code);
@@ -235,36 +261,79 @@ $(document).ready(function(){
  
  $('#save').click(function(){
   var item_name = [];
-  var item_code = [];
-  var item_desc = [];
-  var item_price = [];
-  $('.item_name').each(function(){
-   item_name.push($(this).text());
+  var item_quan = [];
+  var item_supplier = [];
+  var item_batch = [];
+  var item_date = [];
+  var bno = document.getElementById('bno').value;
+  var reason = document.getElementById('reason').value;
+  $('.item_name option:selected').each(function(){
+   item_name.push($(this).val());
   });
-  $('.item_code').each(function(){
-   item_code.push($(this).text());
+  $('.item_quan').each(function(){
+   item_quan.push($(this).text());
   });
-  $('.item_desc').each(function(){
-   item_desc.push($(this).text());
+  $('.item_supplier option:selected').each(function(){
+   item_supplier.push($(this).val());
   });
-  $('.item_price').each(function(){
-   item_price.push($(this).text());
+  $('.item_batch').each(function(){
+   item_batch.push($(this).text());
   });
-  $.ajax({
-   url:"insert.php",
-   method:"POST",
-   data:{item_name:item_name, item_code:item_code, item_desc:item_desc, item_price:item_price},
-   success:function(data){
-    alert(data);
-    $("td[contentEditable='true']").text("");
-    for(var i=2; i<= count; i++)
+  $('.item_date').each(function(){
+   item_date.push($(this).text());
+  });
+  if (item_name == "")
     {
-     $('tr#'+i+'').remove();
     }
-    fetch_item_data();
-   }
-  });
- }); 
+  else
+    {
+  swal({
+        title: "Confirm Request Details?",
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#b05544',
+        confirmButtonText: 'Yes',
+        cancelButtonText: "No",
+        closeOnConfirm: false,
+        closeOnCancel: false
+        },
+        function(isConfirm){
+        if (isConfirm) {
+            $.ajax({
+                    url:"INCLUDES/U_insert_request.php",
+                    method:"POST",
+                    data:{
+                        item_name:item_name, 
+                        item_quan:item_quan, 
+                        item_supplier:item_supplier,
+                        item_batch:item_batch,
+                        item_date:item_date, 
+                        bno:bno,
+                        reason:reason
+                    },
+            success:function(data)
+            { 
+            swal("Requested! ", "Page will be reloaded.", "success");
+            setTimeout(function() 
+            {   
+                window.location = 'U_Requestadded.php?batch_no='+ bno;
+
+                return true;
+            },3000);
+           },
+           error: function(data) {
+                   swal("Error", "Something is wrong.", "error");
+                                }
+            });
+            }
+        else
+        {
+            swal("Cancelled", "Request is not created.", "error");
+        }
+    });
+    }
+ });
 });
 </script>
 <script>
