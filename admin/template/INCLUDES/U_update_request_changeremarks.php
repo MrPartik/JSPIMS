@@ -1,6 +1,6 @@
 <?php
 
-  include 'INCLUDES/connect.php'; 
+  include 'connect.php'; 
 
 	   $remarks = $_POST['remarks'];
 	   $bno = $_POST['bno'];

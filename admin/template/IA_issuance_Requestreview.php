@@ -1,18 +1,20 @@
 <?php
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
-    include 'INCLUDES/U_sidebar.php';
-    include 'INCLUDES/connect.php'; 
+    include 'INCLUDES/O_sidebar.php';
+    include 'INCLUDES/connect.php';
+
+$connect = mysqli_connect('localhost', 'root', '','jspims');
 
 if (isset($_GET['batch_no'])) 
     {
         $bno = $_GET['batch_no'];
-    } 
+    }
 function details($connect)
 {
     $bno = $_GET['batch_no'];
     $output='';
-    $results = mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary AS RS INNER JOIN r_request_remarks as rr ON rr.REMARKS_ID = rs.REMARKS INNER JOIN r_request_status r ON r.STATUS_ID = RS.STATUS_REQ where BATCH_NO = $bno");
+    $results = mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary AS RS INNER JOIN r_request_remarks as rr ON rr.REMARKS_ID = rs.REMARKS INNER JOIN r_request_status as r ON r.STATUS_ID = rs.STATUS_REQ where BATCH_NO = $bno");
     while($row = mysqli_fetch_assoc($results))
         {
             $output .= '<div class="form-group m-r-10">';
@@ -52,12 +54,12 @@ function show_requests($connect)
             $output .= '<th width="5%">Quantity</th>';
             $output .= '<th width="10%">Unit</th>';
             $output .= '<th width="5%">Amount</th>';
-            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID INNER JOIN r_unit_type uu ON uu.UNIT_ID = s.STOCK_UNIT_TYPE WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
+            $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
             while($row1 = mysqli_fetch_assoc($results1))
             {
             $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';
             $output .= '<td class="item_quan" type="number">'.$row1['QUANTITY'].'</td>';
-            $output .= '<td class="item_unit" id="item_unit">'.$row1['UNIT_TYPE'].'</td>';
+            $output .= '<td class="item_unit" id="item_unit">'.$row1['STOCK_UNIT_TYPE'].'</td>';
             $output .= '<td class="item_unit" id="item_unit">10,000</td></tr>';
             } 
             $output .= '</table></div>';
@@ -68,22 +70,11 @@ function show_requests($connect)
 function remarks($connect)
 {
     $output = '';
-    $results = mysqli_query($connect, "SELECT * FROM r_request_remarks");
+    $results = mysqli_query($connect, "SELECT * FROM r_request_status WHERE STATUS_ID != 1");
     while($row = mysqli_fetch_assoc($results))
         {
-            $output .= '<option value="'.$row['REMARKS_ID'].'">'.$row['REMARKS_VAL'].'</option>';
+            $output .= '<option value="'.$row['STATUS_ID'].'">'.$row['STATUS_VAL'].'</option>';
         }
-    return $output;
-}
-function reason($connect)
-{
-    $bno = $_GET['batch_no'];
-    $output='';
-    $results = mysqli_query($connect, "SELECT `REASON_FOR_REQ` FROM t_spare_requisition_summary where BATCH_NO = $bno");
-    while ($row = mysqli_fetch_assoc($results)) {
-       
-       $output .= '<textarea id="reason" name="reason" class="form-control" rows="5" placeholder="Reason for issuance...">'.$row['REASON_FOR_REQ'].'</textarea>';
-    }
     return $output;
 }
 ?>
@@ -133,12 +124,12 @@ function reason($connect)
 
     <link href="../assets/js/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<body>
+<body><br/><br/><br/>
         <!-- begin #content -->
         <div id="content" class="content">
             <!-- begin tab-pane -->
             <div class="panel panel-inverse">
-            <br/><br/><br/>
+
                 <section class="panel">
                     <header class="panel-heading" style="background-color: gray; color: white">
                         Request Details
@@ -160,12 +151,7 @@ function reason($connect)
                     </div>
                     </section>
                     <div class="row group" style="margin-left: 5px">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <?php echo reason($connect);?>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                         <div class="form-group">
                             <select id="remarks" name="remarks" class="form-control m-r-10">
                                 <option value="" selected disabled></option>
@@ -173,11 +159,10 @@ function reason($connect)
                             </select>
                         </div>
                         </div>
-                        <div class="col-md-5">
-
+                        <div class="col-md-6">
                         <div class="form-group">
-                            <button type="button" name="changeremarks" id="changeremarks" href="javascript:;" class="btn btn-success">Update Request</button>
-                            <a type="button" href="U_requests.php" name="return" id="return" class="btn btn-default">Return to Pending Requests</a>
+                            <button type="button" name="changestatus" id="changestatus" href="javascript:;" class="btn btn-success">Change Remarks</button>
+                            <a type="button" href="O_requests.php" name="return" id="return" class="btn btn-default">Return to Pending Requests</a>
                         </div>
                         </div>
                     </div>
@@ -201,7 +186,7 @@ function reason($connect)
     <script src="../assets/js/sweetalert/sweetalert.min.js"></script>
 
 <script type="text/javascript">
-        $('#changeremarks').click(function(e){
+        $('#changestatus').click(function(e){
             e.preventDefault();
             var e = document.getElementById('remarks');
             var remarks = e.options[e.selectedIndex].value;
@@ -228,7 +213,7 @@ function reason($connect)
                     if (isConfirm) {
                         $.ajax({
                                     type: 'POST',
-                                    url: 'INCLUDES/U_update_request_changeremarks.php',
+                                    url: 'INCLUDES/O_update_request_changestatus.php',
                                     async: false,
                                     data: {
                                         remarks:remarks,
@@ -236,11 +221,11 @@ function reason($connect)
                                     },
                                     success: function(data) {
                                         
-                                        swal("Remarks Updated! ", "Page will be reloaded.", "success");
+                                        swal("Status Updated! ", "Page will be reloaded.", "success");
                                         
                                         setTimeout(function() 
                                         {
-                                            window.location = 'U_Requestadded.php?batch_no='+ bno;
+                                            window.location = 'O_requests.php';
                                             return true;
                                         },3000);
                                     },
@@ -252,7 +237,7 @@ function reason($connect)
                     } 
                     else
                     {
-                        swal("Cancelled", "Account is not created.", "error");
+                        swal("Cancelled", "Status not created", "error");
                     }
                 });
                 

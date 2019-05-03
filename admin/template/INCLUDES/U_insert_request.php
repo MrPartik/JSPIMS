@@ -1,5 +1,5 @@
 <?php
-  include 'INCLUDES/connect.php'; 
+  include 'connect.php'; 
 if(isset($_POST["item_name"]))
 {
  $item_name = $_POST["item_name"];

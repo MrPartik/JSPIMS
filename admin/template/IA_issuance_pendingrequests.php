@@ -94,7 +94,7 @@
                                         <td>'.$datereq.'</td>
                                         <td>'.$daterev.'</td>
                                         <td>'.$remarks.'</td>
-                                        <td><a href="IA_Requestadded.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
+                                        <td><a href="IA_issuance_Requestreview.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
                                         }
                                     else {
                                     echo '<tr class="default">
@@ -102,7 +102,7 @@
                                         <td>'.$datereq.'</td>
                                         <td>'.$daterev.'</td>
                                         <td>'.$remarks.'</td>
-                                        <td><a href="U_Requestadded.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
+                                        <td><a href="IA_issuance_Requestreview.php?batch_no='.$bno.'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a></td>';
                                         }
                                 ?>
                                 <?php } ?>

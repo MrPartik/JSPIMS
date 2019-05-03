@@ -112,7 +112,7 @@
 						</a>
 						<ul class="sub-menu">
 							<li><a href="IA_acquired.php">Issued Requests</a></li>
-							<li><a href="IA_addAcquiredStock.php">Pending Requests</a></li>
+							<li><a href="IA_issuance_pendingrequests.php">Pending Requests</a></li>
 							<li><a href="IA_addAcquiredStock_fromPO.php">All Requests</a></li>
 						</ul>
 					</li>
