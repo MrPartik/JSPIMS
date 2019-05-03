@@ -74,30 +74,30 @@
                                         <th class="text-nowrap">Accept Status</th>
                                         <th class="text-nowrap">Date Acquired</th>
                                         <th class="text-nowrap">Method of Acquisition</th>
+                                        <th class="text-nowrap">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
 
-                                    $acq= mysqli_query($connect, "SELECT * FROM t_spare_acquisition AS sp 
-                                                                    INNER JOIN r_unit_type as ut on sp.ITEM_UNIT = ut.UNIT_ID
-                                                                    INNER JOIN r_condition as con on sp.ITEM_CONDITION = con.CON_ID
-                                                                    INNER JOIN r_supplier as sup on sp.SUPPLIER = sup.SUP_ID");
+                                    $acq= mysqli_query($connect, "SELECT * FROM t_spare_acquisition_from_purchased AS sp 
+                                                                    INNER JOIN t_spare_requisition_purchased as ut on sp.REF_PO_ID = ut.PURCHASE_ID
+                                                                    INNER JOIN r_accept_status as at ON at. ACCEPT_STATUS_ID = ut.PURCHASE_ACCEPT_STATUS");
                                     while ($row=mysqli_fetch_assoc($acq)) {
-                                        $sid = $row["AQ_ID"];
-                                        $AQ_DATE = $row["AQ_DATE"];
-                                        $SKU = $row["ITEM_SKU"];
-                                        $QUAN = $row["ITEM_QUANTITY"];
-                                        $SUP = $row["SUP_NAME"];
+                                        $sid = $row["AQ_PO_ID"];
+                                        $pid = $row["REF_PO_ID"];
+                                        $AQ_DATE = $row["AQ_PO_DATE"];
+                                        $accstat = $row["ACCEPT_STATUS_NAME"];
+                                        $pdate = $row["DATE_PURCHASED"];
                                 
                                 ?>
                                     <tr class="odd gradeX">
-                                    	<td style="display: none;"hidden><?php echo $sid;?></td>
+                                    	<td><?php echo $sid;?></td>
+                                        <td><?php echo $pdate;?></td>
+                                        <td><?php echo $accstat;?></td>
                                         <td><?php echo $AQ_DATE;?></td>
-                                        <td><?php echo $SKU;?></td>
-                                        <td><?php echo $QUAN;?></td>
-                                        <td><?php echo $SUP;?></td>
                                         <td><span class="label label-info m-l-5">Purchased</span></td>
+                                        <td><a href="#" class="btn btn-info"><i class="fa fa-eye"></i></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>

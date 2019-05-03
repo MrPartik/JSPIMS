@@ -53,7 +53,7 @@ function show_requests($connect)
             $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
             while($row1 = mysqli_fetch_assoc($results1))
             {
-            $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';
+            $output .= '<tr><td class="item_id">'.$row1['STOCK_ID'].'</td>';
             $output .= '<td class="item_quan" type="number">'.$row1['QUANTITY'].'</td>';
             $output .= '<td class="item_unit" id="item_unit">'.$row1['STOCK_UNIT_TYPE'].'</td>';
             $output .= '<td class="item_unit" id="item_unit">10,000</td></tr>';
@@ -143,22 +143,22 @@ function purchase_details($connect)
                 <!-- begin col-6 -->
                 <div class="col-12">
                     <!-- begin nav-tabs -->
-                    <ul class="nav nav-tabs" style="background-color:black;">
+                    <ul class="nav nav-tabs">
                         <li class="nav-items">
-                            <a href="#ReqDetails" data-toggle="tab" class="nav-link active" style="color:white">
+                            <a href="#ReqDetails" data-toggle="tab" class="nav-link active">
                                 <span class="d-sm-none">Request Details</span>
                                 <span class="d-sm-block d-none">Request Details</span>
                             </a>
                         </li>
                         <li class="nav-items">
-                            <a href="#PurDetails" data-toggle="tab" class="nav-link" style="color:white">
+                            <a href="#PurDetails" data-toggle="tab" class="nav-link">
                                 <span class="d-sm-none">Purchase Status</span>
                                 <span class="d-sm-block d-none">Purchase Status</span>
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="panel tab-pane fade active show" id="ReqDetails">
+                        <div class="panel panel-inverse tab-pane fade active show" id="ReqDetails">
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
                                     Request Details
@@ -180,11 +180,11 @@ function purchase_details($connect)
                                 </div>
                             </section>
                                 <div  align="center">
-                                    <button type="button" name="AA" id="AA" class="btn btn-success">Acquire Stocks</button>
+                                    <button type="button" name="acquire" id="acquire" class="btn btn-success">Acquire Stocks</button>
                                     <a type="button" href="IA_Pending_requestPurchase.php" name="return" id="return" class="btn btn-default">Return to Purchased Stock</a>
                                 </div>
                         </div>
-                        <div class="tab-pane fade" id="PurDetails">
+                        <div class="tab-pane fade panel panel-inverse" id="PurDetails">
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
                                     Purchase Details
@@ -275,19 +275,19 @@ function purchase_details($connect)
         });
     </script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() { 
     $('#acquire').click(function(){
         //var bno = document.getElementById('batchnumber').value;
         var purchase_no = document.getElementById('purchase_no').value;
         var item_id = [];
-       // var item_quan = [];
+        var item_quan = [];
 
         $('.item_id').each(function(){
          item_id.push($(this).text());
      });
-//$('.item_quant').each(function(){
-         //item_quant.push($(this).text());
-    // });
+        $('.item_quan').each(function(){
+         item_quan.push($(this).text());
+     });
 
         if (purchase_no == "")
         {
@@ -314,8 +314,8 @@ $(document).ready(function() {
                         data: {
                             //bno:bno,
                             item_id:item_id,
-                            purchase_no:purchase_no
-                            //item_quant:item_quant
+                            purchase_no:purchase_no,
+                            item_quan:item_quan
                         },
                         success: function(data) {
 

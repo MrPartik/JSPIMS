@@ -78,7 +78,7 @@
 							<li><a href="IA_out_of_stocks.php">Out of Stock</a></li>
 						</ul>
 					</li>
-					<li class="has-sub active">
+					<li class="has-sub">
 						<a href="javascript:;">
 					        <b class="caret"></b>
 							<i class="fa fa-shopping-cart"></i>
@@ -87,20 +87,20 @@
 						<ul class="sub-menu">
 							<li><a href="IA_addRequest.php">Add New Request</a></li>
 							<li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
-							<li class="active"><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
+							<li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
 							<li><a href="IA_allRequests.php">All Requests</a></li>
 						</ul>
 					</li>
-					<li class="has-sub">
+					<li class="has-sub active">
 						<a href="javascript:;">
 					        <b class="caret"></b>
 							<i class="fa fa-download"></i>
 							<span>Acquisition</span>
 						</a>
 						<ul class="sub-menu">
-							<li class="active"><a href="IA_acquired.php">Acquired</a></li>
+							<li><a href="IA_acquired.php">Acquired</a></li>
 							<li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
-							<li><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
+							<li class="active"><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
 							<li><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
 						</ul>
 					</li>

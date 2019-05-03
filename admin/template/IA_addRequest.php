@@ -33,22 +33,6 @@ function supplier_name($connect)
     return $output; 
 }
 
-function stock_details($connect)
- {
-    $output = '';
-
-    $results = mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, sp.STOCK_NAME, sp.STOCK_MODEL, sp.STOCK_SIZE, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME  
-            FROM t_spare_stocks AS sp 
-            INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
-            INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
-            INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID ");
-    
-    while($row = mysqli_fetch_assoc($results))
-        {
-            $output .= '<input type="text" value="'.$row['STOCK_MODEL'].'">';
-        }
-    return $output;
-}
 function requested($connect)
 {
   $output = '';
@@ -168,16 +152,16 @@ function batchNo($connect)
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="crud_table">
                                          <tr>
-                                          <th width="6%" hidden>b_no</th>
-                                          <th width="6%" hidden>date</th>
+                                          <th width="6%" >b_no</th>
+                                          <th width="6%" >date</th>
                                           <th width="30%">Item Name</th>
                                           <th width="5%">Quantity</th>
                                           <th width="30%">Supplier</th>
                                           <th width="5%"></th>
                                          </tr>
                                          <tr>
-                                          <td contenteditable="true" class="item_batch" hidden><?php echo batchNo($connect)?></td>
-                                          <td contenteditable="true" class="item_date" hidden><?php echo date('Y-m-d') ?></td>
+                                          <td contenteditable="true" class="item_batch" ><?php echo batchNo($connect)?></td>
+                                          <td contenteditable="true" class="item_date" ><?php echo date('Y-m-d') ?></td>
                                           <td class="item_name">
                                               <select id="stockname" name="stockname" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
@@ -186,7 +170,7 @@ function batchNo($connect)
                                           </td>
                                           <td contenteditable="true" class="item_quan" type="number"></td>
                                           <td class="item_supplier">
-                                            <select id="item_supplier" name="item_supplier" class="form-control m-r-10">
+                                            <select id="itemsupplier" name="itemsupplier" class="form-control m-r-10">
                                                    <option value="" selected disabled></option>
                                                    <?php echo supplier_name($connect);?>
                                                </select>
@@ -199,13 +183,13 @@ function batchNo($connect)
                                          <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
                                         </div>
                                         <div align="center">
-                                         <button type="button" name="save" id="save" class="btn btn-grey">Clear</button>
+                                         <button type="button" name="cancel" id="cancel" class="btn btn-grey">Clear</button>
                                          <button type="button" name="save" id="save" class="btn btn-info">Save</button>
                                         </div>
                                     </div>
                                 </section>
                             </div>
-                        <div class="panel panel-inverse fade tab-pane" id="AqPO">
+                        <!--<div class="panel panel-inverse fade tab-pane" id="AqPO">
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
                                     Purchase Form for New Stocks
@@ -215,20 +199,20 @@ function batchNo($connect)
                                 <div class="row" style="margin-left:5px">
                                     <div class="form-group m-r-10">
                                         <label>Request No.</label>
-                                        <input type="text" id="bno" name="bno" class="form-control" disabled="true" value="<?php echo batchNo($connect);?>">
+                                        <input type="text" id="AqPObno" name="AqPObno" class="form-control" disabled="true" value="<?php echo batchNo($connect);?>">
                                     </div>
                                     <div class="form-group m-r-10">
                                         <label>Date</label>
-                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
+                                        <input type="text" id="AqPOcurrentdate" name="AqPOcurrentdate" class="form-control" disabled="true" value="<?php echo date('Y-m-d') ?>">
                                     </div>
                                     <div class="form-group m-r-10">
                                         <label>Request by:</label>
-                                        <input type="text" id="currentdate" name="currentdate" class="form-control" disabled="true" value="<?php echo requested($connect) ?>">
+                                        <input type="text" id="AqPOuser" name="AqPOuser" class="form-control" disabled="true" value="<?php echo requested($connect) ?>">
                                     </div>
                                 </div>
-                                <div id="item_desc"></div>
+                                <div id="AqPOitem_desc"></div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="crud_table">
+                                        <table class="table table-bordered" id="AqPOcrud_table">
                                          <tr>
                                           <th class="text-nowrap">Item Name</th>
                                           <th class="text-nowrap">Model</th>
@@ -241,28 +225,28 @@ function batchNo($connect)
                                           <th width="5%"></th>
                                          </tr>
                                          <tr>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_name"></td>
-                                          <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td contenteditable="true" class="item_supplier"></td>
+                                          <td contenteditable="true" class="AqPO_item_name"></td>
+                                          <td contenteditable="true" class="AqPO_model"></td>
+                                          <td contenteditable="true" class="AqPO_brand"></td>
+                                          <td contenteditable="true" class="AqPO_size"></td>
+                                          <td contenteditable="true" class="AqPO_unit"></td>
+                                          <td contenteditable="true" class="AqPO_cond"></td>
+                                          <td contenteditable="true" class="AqPO_quan" type="number"></td>
+                                          <td contenteditable="true" class="AqPO_supplier"></td>
                                           <td></td>
                                          </tr>
                                         </table>
                                       </div>
                                         <div align="right">
-                                         <button type="button" name="add" id="add" class="btn btn-success btn-xs">+</button>
+                                         <button type="button" name="AqPO_add" id="AqPO_add" class="btn btn-success btn-xs">+</button>
                                         </div>
                                         <div align="center">
-                                         <button type="button" name="save" id="save" class="btn btn-grey">Clear</button>
-                                         <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+                                         <button type="button" name="AqPO_cancel" id="AqPO_cancel" class="btn btn-grey">Clear</button>
+                                         <button type="button" name="AqPO_save" id="AqPO_save" class="btn btn-info">Save</button>
                                         </div>
                                     </div>
                                 </section>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>   
@@ -324,11 +308,11 @@ $(document).ready(function(){
  $('#add').click(function(){
   count = count + 1;
   var html_code = "<tr id='row"+count+"'>";
-   html_code = "<td class='item_batch' hidden><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
-   html_code += "<td contenteditable='true' class='item_date'hidden><?php echo date('Y-m-d') ?></td>";
+   html_code += "<td contenteditable='true' class='item_batch'><?php $result = mysqli_query($connect, 'SELECT MAX(BATCH_NO) FROM t_spare_requisition_summary'); $row = mysqli_fetch_array($result); $sum_id = $row[0]; $new_id = $sum_id + 1; echo "$new_id"?></td>";
+   html_code += "<td contenteditable='true' class='item_date'><?php echo date('Y-m-d') ?></td>";
    html_code += "<td class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
-   html_code += "<td class='item_supplier'><select id='item_supplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";
+   html_code += "<td class='item_supplier'><select id='itemsupplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";
    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
    html_code += "</tr>";  
    $('#crud_table').append(html_code); 
@@ -395,11 +379,6 @@ $(document).ready(function(){
             swal("Requested! ", "Page will be reloaded.", "success");
             setTimeout(function() 
             {   
-                $("td[contentEditable='true']").text("");
-            for(var i=2; i<= count; i++)
-             {
-                 $('tr#'+i+'').remove();
-             }
                 window.location = 'IA_Requestadded.php?batch_no='+ bno;
 
                 return true;
