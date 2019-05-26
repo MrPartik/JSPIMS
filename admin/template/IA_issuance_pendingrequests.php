@@ -1,7 +1,7 @@
 <?php
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
-    include 'INCLUDES/U_sidebar.php';
+    include 'INCLUDES/sidebar.php';
 ?>
 
 <!DOCTYPE html>

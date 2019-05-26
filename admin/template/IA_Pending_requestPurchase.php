@@ -78,7 +78,7 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_remarks RR ON RR.REMARKS_ID = RS.REMARKS WHERE STATUS_REQ = '1'");
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_remarks RR ON RR.REMARKS_ID = RS.REMARKS WHERE STATUS_REQ = '1' ORDER BY BATCH_NO DESC");
                                     while ($row=mysqli_fetch_assoc($req)) {
                                         $bno = $row["BATCH_NO"];
                                         $datereq = $row["DATE_REQUESTED"];

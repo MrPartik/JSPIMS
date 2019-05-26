@@ -1,7 +1,7 @@
 <?php
     include 'INCLUDES/userdetails.php';
     include 'INCLUDES/header.php';
-    include 'INCLUDES/O_sidebar.php';
+    include 'INCLUDES/sidebar.php';
     include 'INCLUDES/connect.php';
 
 $connect = mysqli_connect('localhost', 'root', '','jspims');
