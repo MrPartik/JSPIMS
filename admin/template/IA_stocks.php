@@ -25,7 +25,7 @@
 	<link href="../assets/plugins/animate/animate.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style-responsive.min.css" rel="stylesheet" />
-	<link href="../assets/css/material/theme/orange.css" rel="stylesheet" id="theme" />
+	<link href="../assets/css/material/theme/red.css" rel="stylesheet" id="theme" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
