@@ -38,7 +38,7 @@ $password = $_POST['PASSWORD'];
         
         $audittrail = mysqli_query($connect, $insert) or die("Bad query");*/
             
-        header('Location: IA_stocks.php');
+        header('Location: index.php');
         }
         //header('Location: admin-dashboard.php');
         elseif ($role == "user") {
@@ -53,7 +53,7 @@ $password = $_POST['PASSWORD'];
         $_SESSION['USER_ROLE'] = $role;
         $_SESSION['USERID'] = $uid;
 
-        header('Location: O_requests.php');
+        header('Location: O_stocks.php');
         }
 
         //$insert = "INSERT INTO `audit_trail`( `userid`, `transtype`, `transdatetime`) VALUES ($uid, '$transtype', CURRENT_TIMESTAMP)";

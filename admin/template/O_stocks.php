@@ -1,7 +1,7 @@
 <?php
 	include 'INCLUDES/userdetails.php';
 	include 'INCLUDES/header.php';
-	include 'INCLUDES/O_sidebar.php';
+	//include 'INCLUDES/O_sidebar.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Stock Management</title>
+	<title>JSPIMS | Stock Management</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -25,7 +25,7 @@
 	<link href="../assets/plugins/animate/animate.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style-responsive.min.css" rel="stylesheet" />
-	<link href="../assets/css/material/theme/orange.css" rel="stylesheet" id="theme" />
+	<link href="../assets/css/material/theme/red.css" rel="stylesheet" id="theme" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
@@ -41,7 +41,59 @@
 <body>
 	<!-- begin #page-loader -->
 	<!-- end #page-loader -->
-	
+	<div id="sidebar" class="sidebar" data-disable-slide-animation="true">
+			<!-- begin sidebar scrollbar -->
+			<div data-scrollbar="true" data-height="100%">
+				<!-- begin sidebar user -->
+				<ul class="nav">
+					<li class="nav-profile">
+						<a href="javascript:;" data-toggle="nav-profile">
+							<div class="cover with-shadow"></div>
+							<div class="image">
+								<img src="../assets/img/user/user-12.jpg" alt="" />
+							</div>
+							<div class="info">
+								<b class="caret pull-right"></b>
+								<?php echo $fname; ?>
+								<small><?php echo $role; ?></small>
+							</div>
+						</a>
+					</li>
+					<li>
+						<ul class="nav nav-profile">
+                            <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+                        </ul>
+					</li>
+				</ul>
+				<!-- end sidebar user -->
+				<!-- begin sidebar nav -->
+				<ul class="nav">
+					<li class="nav-header">Navigation</li>
+					<li class="has-sub active">
+						<a href="O_stocks.php">
+							<i class="fa fa-database"></i>
+							<span>Stocks</span>
+						</a>
+					</li>
+					<li class="has-sub">
+						<a href="O_requests.php">
+							<i class="fa fa-upload"></i>
+							<span>Requests</span>
+						</a>
+					</li>
+					<li class="has-sub">
+						<a href="O_purchased.php">
+							<i class="fa fa-shopping-cart"></i>
+							<span>Purchased</span>
+						</a>
+					</li>
+				</ul>
+				<!-- end sidebar nav -->
+			</div>
+			<!-- end sidebar scrollbar -->
+		</div>
 	<!-- begin #page-container -->
 	
 		<!-- begin #content -->
@@ -63,22 +115,26 @@
 					<h4 class="panel-title">Spare Parts Inventory</h4>
 				</div>
 				<div class="panel-body">
-						<table id="data-table-buttons" class="table table-striped table-bordered">  
+						<table id="data-table-buttons" class="table">  
                                 <thead>
                                     <tr>
                                     	<th hidden></th>
-                                        <th class="text-nowrap">SKU</th>
+                                        <th class="text-nowrap">Stock Keeping Unit</th>
                                         <th class="text-nowrap">Name</th>
                                         <th class="text-nowrap">Unit Type</th>
                                         <th class="text-nowrap">Condition</th>
                                         <th class="text-nowrap">Quantity</th>
-                                        <th class="text-nowrap">Stock Level</th>
+                                        <th class="text-nowrap">Critical Level</th>
+                                        <th width="15%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME 
+                                    $stock= mysqli_query($connect, "SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(' ', CONCAT_WS(' ', sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, CONCAT(sp.STOCK_CRITICAL_LEVEL,' ', qu.R_QU_NAME,' per ', sl.SL_NAME) AS CRITICAL , sup.SUP_NAME, sp.STOCK_CRITICAL_LEVEL  
                                                                     FROM t_spare_stocks AS sp 
+                                                                    INNER JOIN r_shelf_life sl ON sl.SL_ID = sp.STOCK_SHELF_LIFE 
+                                                                    INNER JOIN r_quantity_unit_type qu
+                                                                    ON qu.R_QU_ID = sp.STOCK_QUANTITY_UNIT_TYPE
                                                                     INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID
                                                                     INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID
                                                                     INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID");
@@ -89,17 +145,34 @@
                                         $sut = $row["UNIT_TYPE"];
                                         $scon = $row["CON_NAME"];
                                         $squa = $row["STOCK_QUANTITY"];
-                                        $scl = $row["STOCK_CRITICAL_LEVEL"];
+                                        $scl = $row["CRITICAL"];
+                                        $crt = $row["STOCK_CRITICAL_LEVEL"];
                                 
-                                ?>
-                                    <tr class="odd gradeX">
-                                    	<td hidden><?php echo $sid;?></td>
-                                        <td><?php echo $sku;?></td>
-                                        <td><?php echo $sname;?></td>
-                                        <td><?php echo $sut;?></td>
-                                        <td><?php echo $scon;?></td>
-                                        <td><?php echo $squa;?></td>
-                                        <td><span class="label label-theme m-l-5"><?php echo $scl;?></span></td>
+                                ?><?php 
+                                      if ($squa <= $crt){
+                                    	echo "<tr class='danger'>
+                                    	<td hidden>".$sid."</td>
+                                        <td>".$sku."</td>
+                                        <td>".$sname."</td>
+                                        <td>".$sut."</td>
+                                        <td>".$scon."</td>
+                                        <td><span class='label label-danger'> ".$squa." </span></td>
+                                        <td>".$scl."</td>
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
+                                        		}
+                                      else {
+                                        echo "<tr class='default'>
+                                    	<td hidden>".$sid."</td>
+                                        <td>".$sku."</td>
+                                        <td>".$sname."</td>
+                                        <td>".$sut."</td>
+                                        <td>".$scon."</td>
+                                        <td><span class='label label-warning'> ".$squa." </span></td>
+                                        <td>".$scl."</td>
+                                        <td><a href='IA_stocks_details.php' class='btn btn-sml btn-primary'><i class='fa fa-eye'></i></a><a href='IA_add_Request_individual.php' class='btn btn-sml btn-warning'><i class='fa fa-shopping-cart'></i></a></td>";
+                                        	}
+                                        ?>
+                                        
                                 <?php } ?>
                                     </tr>
                                 </tbody>

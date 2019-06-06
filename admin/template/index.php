@@ -1,6 +1,6 @@
 <?php
 	include 'INCLUDES/userdetails.php';
-	include 'INCLUDES/sidebar.php';
+	//include 'INCLUDES/sidebar.php';
 	include 'INCLUDES/header.php';
 
 
@@ -14,7 +14,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | Blank Page</title>
+	<title>JSPIMS | Dashboard</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -28,7 +28,7 @@
 	<link href="../assets/plugins/animate/animate.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style.min.css" rel="stylesheet" />
 	<link href="../assets/css/material/style-responsive.min.css" rel="stylesheet" />
-	<link href="../assets/css/material/theme/orange.css" rel="stylesheet" id="theme" />
+	<link href="../assets/css/material/theme/red.css" rel="stylesheet" id="theme" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 	<!-- ================== BEGIN RESPONSIVE TABLE STYLE ================== -->
 	<link href="../assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
@@ -53,6 +53,116 @@
 	</div>
 
 	<!-- end #page-loader -->
+	<div id="sidebar" class="sidebar" data-disable-slide-animation="true" style="position: fixed">
+      <!-- begin sidebar scrollbar -->
+      <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar user -->
+        <ul class="nav">
+          <li class="nav-profile">
+            <a href="javascript:;" data-toggle="nav-profile">
+              <div class="cover with-shadow"></div>
+              <div class="image">
+                <img src="../assets/img/user/user-12.jpg" alt="" />
+              </div>
+              <div class="info">
+                <b class="caret pull-right"></b>
+                <?php echo $fname; ?>
+                <small><?php echo $role; ?></small>
+              </div>
+            </a>
+          </li>
+          <li>
+            <ul class="nav nav-profile">
+                            <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
+                            <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+                        </ul>
+          </li>
+        </ul>
+        <!-- end sidebar user -->
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+          <li class="nav-header">Navigation</li>
+          <li class="has-sub active">
+            <a href="index.php">
+              <i class="fa fa-chart-line"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="has-sub">
+            <a href="javascript:;">
+                  <b class="caret"></b>
+              <i class="fa fa-database"></i>
+              <span>Stock Monitoring</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a href="IA_stocks.php">All Stocks</a></li>
+              <li><a href="IA_stocks_critical.php">Critical Stocks</a></li>
+              <li><a href="IA_out_of_stocks.php">Out of Stock</a></li>
+            </ul>
+          </li>
+          <li class="has-sub">
+            <a href="javascript:;">
+                  <b class="caret"></b>
+              <i class="fa fa-shopping-cart"></i>
+              <span>Request  Purchase</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a href="IA_addRequest.php">Add New Request</a></li>
+              <li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
+              <li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
+              <li><a href="IA_allRequests.php">All Requests</a></li>
+            </ul>
+          </li>
+          <li class="has-sub">
+            <a href="javascript:;">
+                  <b class="caret"></b>
+              <i class="fa fa-download"></i>
+              <span>Acquisition</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a href="IA_acquired.php">Acquired</a></li>
+              <li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
+              <li><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
+              <li><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
+            </ul>
+          </li>
+          <li class="has-sub">
+            <a href="javascript:;">
+                  <b class="caret"></b>
+              <i class="fa fa-upload"></i>
+              <span>Issuance</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a href="IA_acquired.php">Issued Requests</a></li>
+              <li><a href="IA_issuance_pendingrequests.php">Pending Requests</a></li>
+              <li><a href="IA_addAcquiredStock_fromPO.php">All Requests</a></li>
+            </ul>
+          </li>
+          <li class="has-sub">
+            <a href="index.php">
+              <i class="fa fa-minus"></i>
+              <span>Dispatch or Dispose</span>
+            </a>
+          </li>
+          <li class="has-sub">
+            <a href="javascript:;">
+                  <b class="caret"></b>
+                <i class="fa fa-file"></i>
+                <span>Reports <span class="label label-theme m-l-5">NEW</span></span> 
+            </a>
+            <ul class="sub-menu">
+              <li><a href="appProgram.php">List of Applicants by Program</a></li>
+              <li class="active"><a href="appRoom.php">List of Applicants by Room</a></li>
+              <li><a href="appSched.php">List of Applicants by Sched</a></li>
+            </ul>
+          </li>
+          
+        </ul>
+        <!-- end sidebar nav -->
+      </div>
+      <!-- end sidebar scrollbar -->
+    </div>  
 		<!-- begin #content -->
 	<div id="page-container" class="fade page-sidebar-fixed page-header-fixed page-with-wide-sidebar">
 
