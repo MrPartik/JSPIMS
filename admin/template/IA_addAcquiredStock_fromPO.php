@@ -1,7 +1,7 @@
 <?php
   include 'INCLUDES/userdetails.php';
   include 'INCLUDES/header.php';
-  include 'INCLUDES/sidebar.php';
+  //include 'INCLUDES/sidebar.php';
 ?>
 
 <!DOCTYPE html>
@@ -112,8 +112,8 @@
             <ul class="sub-menu">
               <li><a href="IA_acquired.php">Acquired</a></li>
               <li><a href="IA_addAcquiredStock.php">Acquire New Stock</a></li>
-              <li><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
-              <li class="active"><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
+              <li class="active"><a href="IA_addAcquiredStock_fromPO.php">Acquire Purchase Order</a></li>
+              <li><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
             </ul>
           </li>
           <li class="has-sub">

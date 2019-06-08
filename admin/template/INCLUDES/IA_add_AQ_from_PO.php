@@ -2,7 +2,7 @@
 $connect = mysqli_connect("localhost", "root", "", "jspims");
 
 	$item_id = $_POST['item_id'];
-	//$purchase_no = $_POST['purchase_no'];
+	$purchase_no = $_POST['purchase_no'];
 	$item_quan = $_POST["item_quan"];
 	$update_req = '';
 

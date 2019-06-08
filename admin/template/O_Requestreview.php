@@ -86,7 +86,7 @@ function remarks($connect)
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Blank Page</title>
+    <title>JSPIMS | Requeisition</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -226,6 +226,7 @@ function remarks($connect)
                                         setTimeout(function() 
                                         {
                                             window.location = 'O_requests.php';
+                                            window.open('INCLUDES/pdf_sample.php?bno='+bno, '_blank');
                                             return true;
                                         },3000);
                                     },

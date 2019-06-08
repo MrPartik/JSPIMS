@@ -243,42 +243,59 @@
 			
 
 			<div class="panel-body">
-				<div id="this-container">
+				<div id="this-container2">
 				</div>
 			</div>
+    </div>
 			
+
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
 					<h4 class="panel-title"></h4>
 				</div>
 			<div class="panel-body">
-			<div id="this-container2" style="margin-top: 10px;">
-
+        <div id="this-container"></div>
 			</div>
+    </div>
 
-
+      <div class="panel panel-inverse">
+        <div class="panel-heading">
+          <h4 class="panel-title"></h4>
+        </div>
 			<div class="panel-body">
-				<?php  $lastline = exec('C:\\"Program Files"\\R\\R-3.5.3\\bin\\Rscript.exe C:\xampp\htdocs\JSPIMS\admin\myscript.R', $print);?>
+				<?php  $lastline = exec('C:\\"Program Files"\\R\\R-3.5.3\\bin\\Rscript.exe C:\xampp\htdocs\myscript_test.R', $print);?>
 				<img style="width: auto;" src="../assets/img/user/animation.gif"><img style="width: auto;" src="<?php echo 'cluster2.png'?>">
-				<div class="note note-warning note-with-right-icon" style="padding: -5000px;">
-				  <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
-				  <div class="note-content text-right">
-				    <h4><b>Note with right icon!</b></h4>
-				    <p> ... </p>
-				  </div>
-				</div>
-				<center><h4><span class="lead semi-bold">Recommended Suppliers</span></h4></center>
+				
 			</div>
+        </div>
+
+
+        <div class="panel panel-inverse">
+        <div class="panel-heading">
+          <h4 class="panel-title"></h4>
+        </div>
+      <div class="panel-body">
+
+
+        <div class="note note-warning note-with-right-icon" style="padding: -5000px;">
+          <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
+          <div class="note-content text-right">
+            <h4><b>Note with right icon!</b></h4>
+            <p> ... </p>
+          </div>
+        </div>
+        <center><h4><span class="lead semi-bold">Recommended Suppliers</span></h4></center>
 
 				<?php
-					$json =[];
+					$json ="";
+          //var_dump($print);
 					foreach($print as $obj){
 						$json .= $obj;
 					}
-				?>	<table id="data-table-buttons" class="table">  
+
+				?>	<table id="recommendedSupplier" class="table">  
                                 <thead>
-                                    <tr>
-                                    	<th hidden></th>
+                                    <tr> 
                                         <th class="text-nowrap"><span class="label label-warning">Company</span></th>
                                         <th class="text-nowrap"><span class="label label-warning">Days</span></th>
                                         <th class="text-nowrap"><span class="label label-warning">Cost</span></th>
@@ -287,21 +304,21 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                if (is_array($json)) {echo "array";} else if(is_array($json) == false) echo "not array";
-                                $json2 =json_encode($json,TRUE);
-                                foreach(json_decode($json2,TRUE) as $item){
+                                /*if (is_array($json)) {echo "array";} else if(is_array($json) == false) echo "not array";
+                                $json2 =json_encode($json,TRUE); */
+                                foreach(json_decode($json,TRUE) as $item){
 						?>
 							<tr class="default">
 
-								<td><?php echo $item['NO_OF_DAYS_DELIVERED']?></td>
 								<td><?php echo $item['SUP_NAME']?></td>
+                <td><?php echo $item['NO_OF_DAYS_DELIVERED']?></td>
 								<td><?php echo $item['COSTZ']?></td>
 								<td><?php echo $item['Excpected Days of Deliver']?></td>
 							
+                                    </tr>
 						<?php
 					} 
                                     ?>
-                                    </tr>
                                 </tbody>
                             </table>
                     </div>
@@ -309,7 +326,9 @@
                    
 
 			</div>
-		</div>
+    </div>
+      </div>
+        </div>
 		
         <!-- begin theme-panel -->
         <div class="theme-panel">
@@ -446,12 +465,23 @@
 		$(document).ready(function() {
 			App.init();
 			TableManageResponsive.init();
-			TableManageButtons.init();
+      $('#recommendedSupplier').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                { extend: 'copy', className: 'btn-sm' },
+                { extend: 'csv', className: 'btn-sm' },
+                { extend: 'excel', className: 'btn-sm' },
+                { extend: 'pdf', className: 'btn-sm' },
+                { extend: 'print', className: 'btn-sm' }
+            ],
+            responsive: true
+            ,"ordering": false
+        });
 		});
 					Highcharts.chart('this-container', {
 						    chart: {
-						        type: 'column',
-						        inverted: true
+						        type: 'bar',
+						        // inverted: true
 						    },
 						    title: {
 						        text: 'Stocks per Unit Type'
@@ -586,11 +616,10 @@
 								                 		
 								                 	?> "data": [
 								                    <?php	while ($row2 = mysqli_fetch_assoc($tableresult2)) { ?>
-								                    [ {
-								                        "name": "<?php echo $row2['STOCK_Name']?>",
-								                        "y": <?php echo $row2['count2']?>,
-								                        "drilldown": "<?php echo $row2['STOCK_Name']?>"
-								                    }],<?php } ?>
+								                    [ 
+								                        "<?php echo $row2['SUP_NAME']?>" ,
+								                        <?php echo $row2['count2']?>,
+								                    ],<?php } ?>
 								                     
 								                    
 								                ]
@@ -647,3 +676,118 @@
 						    }
 						});
 	</script>
+
+  <script>
+    $(document).ready(function() {
+    });
+
+
+
+            // Create the chart
+            Highcharts.chart('this-container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Number of Purchase Orders Per Year'
+                },
+                subtitle: {
+                    text: 'Jayross SPIMS'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.1f}%'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                },
+
+                "series": [
+                    {
+                        "name": "Year",
+                        "colorByPoint": true,
+                        "data": [
+                        <?php ///count(distinct c.companyname)
+                             $tablesql = "SELECT ACADYR as qttid, acadyr_name as qtt from acadyr WHERE acadyr IN (SELECT ACADYR FROM acadyr)";
+                              $tableresult = mysqli_query($connect, $tablesql) or die(mysqli_error($connect));
+
+                      while ($row = mysqli_fetch_assoc($tableresult)) {
+                        $year = $row['qtt'];
+                        $yearid = $row['qttid'];
+                              ?> 
+                      {
+                        "name": "<?php echo $year;?>",
+                        "y":
+                        <?php 
+                          $tablesql1 ="SELECT COUNT(APP_ID) as APPLY FROM APPLICANT WHERE ACADYR_FK = '$yearid' ";
+                          $tableresult1 = mysqli_query($connect, $tablesql1) or die(mysqli_error($connect)); 
+                          while ($row1 = mysqli_fetch_assoc($tableresult1)) {
+                        ?>
+                        <?php echo $row1['APPLY'] ?>,
+                        <?php }?> 
+                                  "drilldown": "<?php echo $year;?>"
+                      },
+                      <?php } ?>
+                            
+                        ]
+                    }
+                ],
+                "drilldown": {
+                    "series": [
+                          <?php  $tablesql = "SELECT DISTINCT ACADYR_NAME qtt, ACADYR AS qttid, C.PROG_NAME AS qtt2, C.PROG_ID AS qtt2id FROM ACADYR AS A INNER JOIN APPLICANT AS B ON B.ACADYR_FK = A.ACADYR INNER JOIN PROGRAM AS C ON B.APP_FIRST_FK = C.PROG_ID ";
+                              $tableresult = mysqli_query($connect, $tablesql) or die(mysqli_error($connect));
+
+                      while ($row = mysqli_fetch_assoc($tableresult)) {
+                        $year = $row['qtt'];
+                        $yearid = $row['qttid'];
+                        $program = $row['qtt2'];
+                        $pid = $row['qtt2id'];
+                        //echo 'programID'. $pid.'program'. $program;
+                        //echo $yearid;
+                        // SELECT PROG_NAME AS qtt2, PROG_ID AS qtt2id FROM PROGRAM
+                        //AND B.PROG_ID = $program 
+                              ?> 
+                      {
+                                "name": "<?php echo $year;?>", 
+                                "colorByPoint": true,
+                                "id": "<?php echo $year;?>", 
+                                
+                                  <?php 
+                                    $tablesql2 ="SELECT DISTINCT B.PROG_NAME AS APP, COUNT(A.APP_ID) AS COUNT from APPLICANT AS A INNER JOIN PROGRAM AS B ON A.APP_FIRST_FK = B.PROG_ID WHERE A.ACADYR_FK = '$yearid'  ";
+                                    $tableresult2 = mysqli_query($connect, $tablesql2) or die(mysqli_error($connect));
+                                    
+                                  ?> "data": [
+                                    [ <?php while ($row2 = mysqli_fetch_assoc($tableresult2)) { ?>
+                                        "<?php echo $row2['APP']?>",
+                                        <?php echo $row2['COUNT']
+                                          ;} ?>
+                                    ],
+                                     
+                                    
+                                ]
+                               
+                            },
+                        <?php }?> 
+                    ]
+                }
+            });
+  </script>
