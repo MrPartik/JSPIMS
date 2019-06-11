@@ -61,7 +61,7 @@ function batchNo($connect)
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>JSPIMS | Requisition</title>
+    <title>JSPIMS | Issuance</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -218,20 +218,6 @@ function batchNo($connect)
                 <!-- begin col-6 -->
                 <div class="col-12">
                     <!-- begin nav-tabs -->
-                    <ul class="nav nav-tabs">
-                        <li class="nav-items">
-                            <a href="#AddIndiv" data-toggle="tab" class="nav-link active">
-                                <span class="d-sm-none">Request for Old Stock</span>
-                                <span class="d-sm-block d-none">Request for Old Stock</span>
-                            </a>
-                        </li>
-                        <li class="nav-items">
-                            <a href="#AqPO" data-toggle="tab" class="nav-link">
-                                <span class="d-sm-none">Request for New Stock</span>
-                                <span class="d-sm-block d-none">Request for New Stock</span>
-                            </a>
-                        </li>
-                    </ul>
                     <!-- end nav-tabs -->
                     <!-- begin tab-content -->
                     <div class="tab-content">
@@ -240,7 +226,7 @@ function batchNo($connect)
 
                             <section class="panel">
                                 <header class="panel-heading" style="background-color: gray; color: white">
-                                    Purchase Form for Old Stocks
+                                    Issuance Form
                                 <span class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
                                 </header>
                                 <div class="panel-body" id="r_input">
@@ -266,8 +252,7 @@ function batchNo($connect)
                                           <th width="6%" hidden>date</th>
                                           <th width="30%">Item Name</th>
                                           <th width="5%">Quantity</th>
-                                          <th width="30%">Supplier</th>
-                                          <th width="5%">Days of Delivery</th>
+                                          <th width="5%" hidden>Days of Delivery</th>
                                           <th width="5%"></th>
                                          </tr>
                                          <tr>
@@ -280,13 +265,8 @@ function batchNo($connect)
                                                </select>
                                           </td>
                                           <td contenteditable="true" class="item_quan" type="number"></td>
-                                          <td class="item_supplier">
-                                            <select id="itemsupplier" name="itemsupplier" class="form-control m-r-10">
-                                                   <option value="" selected disabled></option>
-                                                   <?php echo supplier_name($connect);?>
-                                               </select>
-                                          </td>
-                                          <td contenteditable="true" class="deldays" type="number"></td>
+                                          
+                                          <td hidden contenteditable="true" class="deldays" type="number"></td>
                                           <td></td>
                                          </tr>
                                         </table>
@@ -424,7 +404,6 @@ $(document).ready(function(){
    html_code += "<td class='item_date' hidden><?php echo date('Y-m-d') ?></td>";
    html_code += "<td class='item_name'><select id='stock_name' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sp.STOCK_ID, sp.STOCK_KEY_UNIT, CONCAT_WS(" " , CONCAT_WS(" ", sp.STOCK_NAME, sp.STOCK_MODEL), sp.STOCK_SIZE) as STOCK_Name, sp.STOCK_BRAND, ut.UNIT_TYPE, con.CON_NAME, sp.STOCK_QUANTITY, sp.STOCK_CRITICAL_LEVEL, sup.SUP_NAME FROM t_spare_stocks AS sp INNER JOIN r_unit_type as ut on sp.STOCK_UNIT_TYPE = ut.UNIT_ID INNER JOIN r_condition as con on sp.STOCK_CONDITION = con.CON_ID INNER JOIN r_supplier as sup on sp.STOCK_SUPPLIER = sup.SUP_ID'); while($row = mysqli_fetch_assoc($results)){$stockid = $row['STOCK_ID'];$stockname = $row['STOCK_Name'];?><option value='<?php echo "$stockid"; ?>''><?php echo "$stockname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='item_quan'></td>";
-   html_code += "<td class='item_supplier'><select id='itemsupplier' class='form-control m-r-10'><option value='' selected disabled></option><?php $results = mysqli_query($connect, 'SELECT sup.SUP_ID, sup.SUP_NAME FROM r_supplier as sup where sup.SUP_ID != 1'); while($row = mysqli_fetch_assoc($results)){$supid = $row['SUP_ID'];$supname = $row['SUP_NAME'];?><option value='<?php echo "$supid"; ?>''><?php echo "$supname"; ?></option><?php } ?></select></td>";
    html_code += "<td contenteditable='true' class='deldays'></td>";
    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
    html_code += "</tr>";  
@@ -439,7 +418,7 @@ $(document).ready(function(){
  $('#save').click(function(){
   var item_name = [];
   var item_quan = [];
-  var item_supplier = [];
+  //var item_supplier = [];
   var item_batch = [];
   var item_date = [];
   var deldays = [];
@@ -450,9 +429,9 @@ $(document).ready(function(){
   $('.item_quan').each(function(){
    item_quan.push($(this).text());
   });
-  $('.item_supplier option:selected').each(function(){
+  /*$('.item_supplier option:selected').each(function(){
    item_supplier.push($(this).val());
-  });
+  });*/
   $('.item_batch').each(function(){
    item_batch.push($(this).text());
   });
@@ -482,12 +461,12 @@ $(document).ready(function(){
         function(isConfirm){
         if (isConfirm) {
             $.ajax({
-                    url:"INCLUDES/IA_insert_request.php",
+                    url:"INCLUDES/IA_insert_requestIssuance.php",
                     method:"POST",
                     data:{
                         item_name:item_name, 
                         item_quan:item_quan, 
-                        item_supplier:item_supplier,
+                        //item_supplier:item_supplier,
                         item_batch:item_batch,
                         item_date:item_date,
                         deldays:deldays, 

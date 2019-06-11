@@ -123,23 +123,30 @@
                                     	<th class="text-nowrap">Batch No</th>
                                         <th class="text-nowrap">Date Requested</th>
                                         <th class="text-nowrap">Remarks</th>
+                                        <th class="text-nowrap">Request Type</th>
                                         <th class="text-nowrap"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_remarks RR ON RR.REMARKS_ID = RS.REMARKS WHERE STATUS_REQ = '1' ORDER BY BATCH_NO DESC");
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_remarks RR ON RR.REMARKS_ID = RS.REMARKS 
+                                    	INNER JOIN R_REQUEST_TYPE AS RT
+                                    	ON RS.REF_REQUEST_TYPE = RT.REQ_TYPE_ID
+                                    	WHERE STATUS_REQ = '1' ORDER BY BATCH_NO DESC");
                                     while ($row=mysqli_fetch_assoc($req)) {
                                         $bno = $row["BATCH_NO"];
                                         $datereq = $row["DATE_REQUESTED"];
                                         $remarks = $row["REMARKS_VAL"];
+                                        $rtype = $row["REQ_TYPE_NAME"];
+                                        $rid = $row["REQ_TYPE_ID"];
                                 
                                 ?>
                                     <tr class="odd gradeX">
                                     	<td><?php echo $bno;?></td>
                                         <td><?php echo $datereq;?></td>
                                         <td><?php echo $remarks;?></td>
-                                        <td><a href="O_Requestreview.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a></td>
+                                        <td><?php echo $rtype;?></td>
+                                        <td><?php if ($rid == 1){ ?><a href="O_Requestreview.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a><?php } else if($rid == 2) {?><a href="O_RequestIssueReview.php?batch_no=<?php echo $bno; ?>" class="btn btn-sm btn-success">View</a><?php }?></td>
                                 <?php } ?>
                                     </tr>
                                 </tbody>

@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>JSPIMS | Purchase Request </title>
+	<title>JSPIMS | Issuance Request </title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -89,7 +89,7 @@
               <li><a href="IA_out_of_stocks.php">Out of Stock</a></li>
             </ul>
           </li>
-          <li class="has-sub active">
+          <li class="has-sub">
             <a href="javascript:;">
                   <b class="caret"></b>
               <i class="fa fa-shopping-cart"></i>
@@ -98,7 +98,7 @@
             <ul class="sub-menu">
               <li><a href="IA_addRequest.php">Add New Request</a></li>
               <li><a href="IA_Pending_requestPurchase.php">Pending Requests</a></li>
-              <li class="active"><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
+              <li><a href="IA_Approved_requestPurchase.php">Approved Requests</a></li>
               <li><a href="IA_allRequests.php">All Requests</a></li>
             </ul>
           </li>
@@ -115,14 +115,14 @@
               <li><a href="IA_addAcquiredStock_fromPO.php">Other Modes of Acquisition</a></li>
             </ul>
           </li>
-          <li class="has-sub">
+          <li class="has-sub active">
             <a href="javascript:;">
                   <b class="caret"></b>
               <i class="fa fa-upload"></i>
               <span>Issuance</span>
             </a>
             <ul class="sub-menu">
-              <li><a href="IA_acquired.php">Issued Requests</a></li>
+              <li class="active"><a href="IA_Approved_requestIssuance.php">Issued Requests</a></li>
               <li><a href="IA_issuance_pendingrequests.php">Pending Requests</a></li>
               <li><a href="IA_addAcquiredStock_fromPO.php">All Requests</a></li>
             </ul>
@@ -171,7 +171,7 @@
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">PURCHASE REQUESTS</h4>
+					<h4 class="panel-title">ISSUANCE REQUESTS</h4>
 				</div>
 				<div class="panel-body">
 						<table id="data-table-buttons" class="table table-striped table-bordered">  
@@ -187,8 +187,7 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_status RR ON RR.STATUS_ID = RS.STATUS_REQ
-                                    	WHERE RS.STATUS_REQ = '2' AND RS.REF_REQUEST_TYPE = 1");
+                                    $req= mysqli_query($connect, "SELECT * FROM t_spare_requisition_summary RS INNER JOIN r_request_status RR ON RR.STATUS_ID = RS.STATUS_REQ WHERE RS.STATUS_REQ = '2' AND RS.REF_REQUEST_TYPE = 2");
                                     while ($row=mysqli_fetch_assoc($req)) {
                                         $bno = $row["BATCH_NO"];
                                         $datereq = $row["DATE_REQUESTED"];

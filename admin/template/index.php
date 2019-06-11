@@ -280,8 +280,8 @@
         <div class="note note-warning note-with-right-icon" style="padding: -5000px;">
           <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
           <div class="note-content text-right">
-            <h4><b>Note with right icon!</b></h4>
-            <p> ... </p>
+            <h4><b>Supplier Recommender Feature!</b></h4>
+            <p>Suppliers are ranked from the fastest delivery perfomance to average delivering service. Predictive analysis is utilized to help you in supplier selection.</p>
           </div>
         </div>
         <center><h4><span class="lead semi-bold">Recommended Suppliers</span></h4></center>
@@ -296,9 +296,9 @@
 				?>	<table id="recommendedSupplier" class="table">  
                                 <thead>
                                     <tr> 
-                                        <th class="text-nowrap"><span class="label label-warning">Company</span></th>
-                                        <th class="text-nowrap"><span class="label label-warning">Days</span></th>
-                                        <th class="text-nowrap"><span class="label label-warning">Cost</span></th>
+                                        <th class="text-nowrap"><span class="label label-warning">Supplier</span></th>
+                                        <th class="text-nowrap"><span class="label label-warning">Ficed Delivery Days</span></th>
+                                        <th class="text-nowrap"><span class="label label-warning">Actual Delivery Days</span></th>
                                         <th class="text-nowrap"><span class="label label-warning">Predicted Value</span></th>
                                     </tr>
                                 </thead>
@@ -311,8 +311,8 @@
 							<tr class="default">
 
 								<td><?php echo $item['SUP_NAME']?></td>
-                <td><?php echo $item['NO_OF_DAYS_DELIVERED']?></td>
-								<td><?php echo $item['COSTZ']?></td>
+                <td><?php echo $item['FIXED_DEL_DAYS']?></td>
+								<td><?php echo $item['ACTUAL_DELIVERY_DAYS']?></td>
 								<td><?php echo $item['Excpected Days of Deliver']?></td>
 							
                                     </tr>

@@ -52,13 +52,15 @@ function show_requests($connect)
             $output .= '<th width="5%">Quantity</th>';
             $output .= '<th width="10%">Unit</th>';
             $output .= '<th width="5%">Amount</th>';
+            $output .= '<th width="5%">Number of Delivery Days</th>';
             $results1 = mysqli_query($connect, "SELECT * from r_supplier r INNER JOIN t_spare_requisition_old_stock t ON r.SUP_ID = t.STOCK_SUPPLIER INNER JOIN t_spare_stocks s ON s.STOCK_ID = t.REF_STOCK_ID WHERE t.STOCK_SUPPLIER = $row[STOCK_SUPPLIER] AND t.REF_BATCH_NO = $row[REF_BATCH_NO]");
             while($row1 = mysqli_fetch_assoc($results1))
             {
             $output .= '<tr><td class="item_name">'.$row1['STOCK_NAME'].'</td>';
             $output .= '<td class="item_quan" type="number">'.$row1['QUANTITY'].'</td>';
             $output .= '<td class="item_unit" id="item_unit">'.$row1['STOCK_UNIT_TYPE'].'</td>';
-            $output .= '<td class="item_unit" id="item_unit">10,000</td></tr>';
+            $output .= '<td class="item_unit" id="item_unit">10,000</td>';
+            $output .= '<td class="item_unit" id="deldays">'.$row1['NO_OF_DEL_DAYS'].'</td></tr>';
             } 
             $output .= '</table></div>';
             $output .= '</div>';   
@@ -84,7 +86,7 @@ function remarks($connect)
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Blank Page</title>
+    <title>JSPIMS | Requisition</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />

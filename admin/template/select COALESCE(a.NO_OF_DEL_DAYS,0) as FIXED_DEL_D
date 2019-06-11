@@ -1,0 +1,8 @@
+select COALESCE(a.NO_OF_DEL_DAYS,0) as FIXED_DEL_DAYS,  d.SUP_NAME,c.DELIVERY_DATE -c.DATE_PURCHASED as ACTUAL_DELIVERY_DAYS ,  DATE_ADD(c.DATE_PURCHASED, INTERVAL a.NO_OF_DEL_DAYS DAY) as EXPECTED_DELIVERY_DATE,  c.DATE_PURCHASED 
+from t_spare_requisition_old_stock as a
+inner join t_spare_requisition_summary as b
+on a.REF_BATCH_NO = b.BATCH_NO
+inner join t_spare_requisition_purchased as c
+on c.REF_BATCH_NO = b.BATCH_NO
+inner join r_supplier as d
+on a.STOCK_SUPPLIER = d.SUP_ID
